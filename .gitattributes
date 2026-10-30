@@ -1,3 +1,5 @@
 * text=auto eol=lf
 *.png binary
 *.webp binary
+# 공공데이터 원본은 받은 그대로(줄바꿈·인코딩 변환 없이) 저장
+data-build/raw/** -text
