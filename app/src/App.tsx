@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { createHashRouter, Outlet, RouterProvider, useNavigate } from 'react-router-dom';
-import { validStationIds } from './data/graph';
-import { decodePayload, encodePayload, extractQuery } from './features/share/codec';
+import { entryTarget } from './features/share/entry';
 import { initialSchemeUrl } from './platform/toss';
 import { Candidates } from './routes/Candidates';
 import { Detail } from './routes/Detail';
@@ -16,16 +15,15 @@ import { Settings, SettingsPage } from './routes/Settings';
 import { ShareScreen } from './routes/Share';
 import { AppStateProvider } from './state/AppState';
 
-/** 토스 공유 링크(intoss://saeit/result?…)로 들어오면 한 번만 결과 화면으로 보낸다. 검증 실패 시 홈 그대로. */
+/** 토스 링크(intoss://saeit/…)로 들어오면 한 번만 해당 화면으로 보낸다. 검증 실패 시 홈 그대로. */
 function EntryRedirect() {
   const navigate = useNavigate();
   useEffect(() => {
     let done = false;
     initialSchemeUrl().then((url) => {
       if (done || !url) return;
-      const q = extractQuery(url);
-      const p = q ? decodePayload(q, validStationIds) : null;
-      if (p) navigate(`/result?${encodePayload(p)}`, { replace: true });
+      const target = entryTarget(url);
+      if (target) navigate(target, { replace: true });
     });
     return () => { done = true; };
   }, [navigate]);

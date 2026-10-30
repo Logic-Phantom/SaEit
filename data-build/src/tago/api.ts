@@ -60,6 +60,7 @@ export const ROUTE_NAME_PATTERNS: Record<string, RegExp> = {
   L1: /^1호선$/,
   L3: /^3호선$/,
   L4: /^4호선$/,
+  L8: /^8호선$/,
   L9: /^9호선$/,
   AREX: /^공항$/,
   SB: /^수인분당$/,
@@ -69,6 +70,10 @@ export const ROUTE_NAME_PATTERNS: Record<string, RegExp> = {
   SH: /^서해선$/,
   SBD: /^신분당$/,
   EL: /^에버라인$/,
+  UI: /^우이신설$/,
+  SL: /^신림선$/,
+  GF: /^김포골드라인$/,
+  UJ: /^의정부$/,
 };
 
 /** 수도권이 아닌 운영기관의 역 ID 접두어(같은 노선 이름 구분용). 확인: 부산 MTRBS·대전 MTRDJ·부산김해 MTRBG */

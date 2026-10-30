@@ -68,7 +68,19 @@ def main() -> None:
     word.thumbnail((640, 640), Image.LANCZOS)
     word.save(out_brand / 'wordmark.png', optimize=True)
 
-    print('icon box', box, '→', crop, 'letters', lb)
+    # 7. 앱인토스 콘솔 앱 로고: 600×600 PNG, 배경색 필수(투명 금지), **모서리 둥글림 금지**(console-workspace.md, 2026-10-30 확인).
+    #    원본의 둥근 사각 틀 대신, 원본 아이콘 안쪽 배경색을 단색으로 깔고 원본 워드마크 픽셀을 가운데에 둔다(새로 그리지 않음).
+    inner = art.crop((380, 140, 640, 230)).resize((1, 1), Image.BOX).getpixel((0, 0))
+    console = Image.new('RGBA', (600, 600), inner + (255,))
+    w = word.copy()
+    w.thumbnail((420, 420), Image.LANCZOS)
+    console.alpha_composite(w, ((600 - w.width) // 2, (600 - w.height) // 2))
+    console.convert('RGB').save(ROOT / 'assets' / 'brand' / 'console-icon-600-flat.png', optimize=True)  # 예비안(틀 없는 워드마크)
+
+    # 8. 콘솔 앱 로고(사용 중): 소유자 지정 — 원본 아이콘 그대로 600×600(흰 바탕 PNG, 투명 없음). 검토에서 '모서리 둥글림' 지적이 오면 예비안 사용
+    src.resize((600, 600), Image.LANCZOS).save(ROOT / 'assets' / 'brand' / 'console-icon-600.png', optimize=True)
+
+    print('icon box', box, '→', crop, 'letters', lb, 'console bg', inner)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import type { RawLine, RawSection } from '../types.ts';
 import { normalizeName } from '../normalize-station.ts';
 
-interface ManualFile { lines: (RawLine & { stations: string[]; checked: string })[] }
+interface ManualFile { lines: (RawLine & { stations: string[]; checked: string; extendsLine?: boolean })[] }
 
 export function loadManualLines(path: string): { lines: RawLine[]; sections: RawSection[] } {
   const file = JSON.parse(readFileSync(path, 'utf8')) as ManualFile;
@@ -13,5 +13,7 @@ export function loadManualLines(path: string): { lines: RawLine[]; sections: Raw
     const names = l.stations.map((s) => normalizeName(s, l.id));
     for (let i = 0; i + 1 < names.length; i++) sections.push({ lineId: l.id, from: names[i], to: names[i + 1], sec: null, estimated: true });
   }
-  return { lines: file.lines.map(({ id, name, short, operator, color }) => ({ id, name, short, operator, color })), sections };
+  // 연장 구간(extendsLine)은 기존 노선에 구간만 더한다
+  const lines = file.lines.filter((l) => !l.extendsLine).map(({ id, name, short, operator, color }) => ({ id, name, short, operator, color }));
+  return { lines, sections };
 }

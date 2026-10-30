@@ -1,62 +1,62 @@
 {
- "fetchedAt": "2026-10-30T02:17:49.690Z",
+ "fetchedAt": "2026-10-30T04:04:55.363Z",
  "dailyTypeCode": "01",
- "method": "같은 방향·같은 종점 열차의 A역 출발→B역 출발 차, 평일 07~22시 중앙값(D-035)",
+ "method": "같은 방향 코드·같은 종점 열차 묶음별 A역 출발→B역 출발 차의 중앙값(종점 위치로 방향 판단·코드 내 다수 방향 묶음만), 평일 07~22시, 묶음 표본 수 가중 평균(D-035, D-041)",
  "pairs": {
   "L9|개화|김포공항": {
    "sec": 290,
    "samples": 198
   },
   "L9|김포공항|공항시장": {
-   "sec": 110,
+   "sec": 106,
    "samples": 392
   },
   "L9|공항시장|신방화": {
-   "sec": 103,
+   "sec": 94,
    "samples": 393
   },
   "L9|신방화|마곡나루": {
-   "sec": 138,
+   "sec": 118,
    "samples": 393
   },
   "L9|마곡나루|양천향교": {
-   "sec": 143,
+   "sec": 135,
    "samples": 393
   },
   "L9|양천향교|가양": {
-   "sec": 144,
+   "sec": 134,
    "samples": 393
   },
   "L9|가양|증미": {
-   "sec": 98,
+   "sec": 125,
    "samples": 395
   },
   "L9|증미|등촌": {
-   "sec": 122,
+   "sec": 109,
    "samples": 396
   },
   "L9|등촌|염창": {
-   "sec": 128,
+   "sec": 114,
    "samples": 395
   },
   "L9|염창|신목동": {
-   "sec": 123,
+   "sec": 120,
    "samples": 395
   },
   "L9|신목동|선유도": {
-   "sec": 140,
+   "sec": 124,
    "samples": 394
   },
   "L9|선유도|당산": {
-   "sec": 133,
+   "sec": 119,
    "samples": 395
   },
   "L9|당산|국회의사당": {
-   "sec": 150,
+   "sec": 146,
    "samples": 397
   },
   "L9|국회의사당|여의도": {
-   "sec": 122,
+   "sec": 114,
    "samples": 396
   },
   "L9|여의도|샛강": {
@@ -64,91 +64,91 @@
    "samples": 395
   },
   "L9|샛강|노량진": {
-   "sec": 135,
+   "sec": 118,
    "samples": 399
   },
   "L9|노량진|노들": {
-   "sec": 128,
+   "sec": 125,
    "samples": 398
   },
   "L9|노들|흑석": {
-   "sec": 125,
+   "sec": 113,
    "samples": 399
   },
   "L9|흑석|동작": {
-   "sec": 159,
+   "sec": 141,
    "samples": 397
   },
   "L9|동작|구반포": {
-   "sec": 98,
+   "sec": 90,
    "samples": 398
   },
   "L9|구반포|신반포": {
-   "sec": 110,
+   "sec": 94,
    "samples": 397
   },
   "L9|신반포|고속터미널": {
-   "sec": 115,
+   "sec": 105,
    "samples": 398
   },
   "L9|고속터미널|사평": {
-   "sec": 135,
+   "sec": 130,
    "samples": 398
   },
   "L9|사평|신논현": {
-   "sec": 128,
+   "sec": 118,
    "samples": 399
   },
   "L9|신논현|언주": {
-   "sec": 128,
+   "sec": 120,
    "samples": 399
   },
   "L9|언주|선정릉": {
-   "sec": 115,
+   "sec": 104,
    "samples": 398
   },
   "L9|선정릉|삼성중앙": {
-   "sec": 123,
+   "sec": 119,
    "samples": 399
   },
   "L9|삼성중앙|봉은사": {
-   "sec": 120,
+   "sec": 107,
    "samples": 398
   },
   "L9|봉은사|종합운동장": {
-   "sec": 150,
+   "sec": 149,
    "samples": 398
   },
   "L9|종합운동장|삼전": {
-   "sec": 165,
+   "sec": 154,
    "samples": 399
   },
   "L9|삼전|석촌고분": {
-   "sec": 118,
+   "sec": 103,
    "samples": 399
   },
   "L9|석촌고분|석촌": {
-   "sec": 113,
+   "sec": 103,
    "samples": 398
   },
   "L9|석촌|송파나루": {
-   "sec": 118,
+   "sec": 115,
    "samples": 398
   },
   "L9|송파나루|한성백제": {
-   "sec": 113,
+   "sec": 132,
    "samples": 399
   },
   "L9|한성백제|올림픽공원": {
-   "sec": 155,
+   "sec": 137,
    "samples": 398
   },
   "L9|올림픽공원|둔촌오륜": {
-   "sec": 128,
+   "sec": 126,
    "samples": 398
   },
   "L9|둔촌오륜|중앙보훈병원": {
-   "sec": 153,
+   "sec": 139,
    "samples": 397
   },
   "AREX|서울역|공덕": {
@@ -164,7 +164,7 @@
    "samples": 359
   },
   "AREX|디지털미디어시티|마곡나루": {
-   "sec": 245,
+   "sec": 236,
    "samples": 359
   },
   "AREX|마곡나루|김포공항": {
@@ -172,11 +172,11 @@
    "samples": 359
   },
   "AREX|김포공항|계양": {
-   "sec": 265,
+   "sec": 186,
    "samples": 358
   },
   "AREX|계양|검암": {
-   "sec": 255,
+   "sec": 252,
    "samples": 358
   },
   "AREX|검암|청라국제도시": {
@@ -200,232 +200,232 @@
    "samples": 264
   },
   "AREX|인천공항1터미널|인천공항2터미널": {
-   "sec": 360,
+   "sec": 359,
    "samples": 265
   },
   "L1|연천|전곡": {
-   "sec": 465,
-   "samples": 32
+   "sec": 463,
+   "samples": 28
   },
   "L1|전곡|청산": {
-   "sec": 255,
-   "samples": 32
+   "sec": 250,
+   "samples": 27
   },
   "L1|청산|소요산": {
-   "sec": 345,
-   "samples": 32
+   "sec": 340,
+   "samples": 27
   },
   "L1|소요산|동두천": {
-   "sec": 225,
-   "samples": 59
+   "sec": 215,
+   "samples": 52
   },
   "L1|동두천|보산": {
-   "sec": 150,
-   "samples": 110
+   "sec": 143,
+   "samples": 107
   },
   "L1|보산|동두천중앙": {
    "sec": 150,
-   "samples": 110
+   "samples": 107
   },
   "L1|동두천중앙|지행": {
    "sec": 120,
-   "samples": 111
+   "samples": 108
   },
   "L1|지행|덕정": {
    "sec": 300,
-   "samples": 110
+   "samples": 107
   },
   "L1|덕정|덕계": {
    "sec": 210,
-   "samples": 110
+   "samples": 107
   },
   "L1|덕계|양주": {
    "sec": 300,
-   "samples": 110
+   "samples": 107
   },
   "L1|양주|녹양": {
-   "sec": 150,
-   "samples": 167
+   "sec": 145,
+   "samples": 163
   },
   "L1|녹양|가능": {
    "sec": 120,
-   "samples": 168
+   "samples": 164
   },
   "L1|가능|의정부": {
    "sec": 150,
-   "samples": 168
+   "samples": 164
   },
   "L1|의정부|회룡": {
-   "sec": 180,
-   "samples": 206
+   "sec": 177,
+   "samples": 201
   },
   "L1|회룡|망월사": {
    "sec": 150,
-   "samples": 205
+   "samples": 200
   },
   "L1|망월사|도봉산": {
    "sec": 180,
-   "samples": 206
+   "samples": 201
   },
   "L1|도봉산|도봉": {
    "sec": 120,
-   "samples": 205
+   "samples": 200
   },
   "L1|도봉|방학": {
    "sec": 120,
-   "samples": 205
+   "samples": 200
   },
   "L1|방학|창동": {
    "sec": 150,
-   "samples": 206
+   "samples": 201
   },
   "L1|창동|녹천": {
    "sec": 120,
-   "samples": 207
+   "samples": 201
   },
   "L1|녹천|월계": {
    "sec": 150,
-   "samples": 206
+   "samples": 200
   },
   "L1|월계|광운대": {
-   "sec": 135,
-   "samples": 204
+   "sec": 133,
+   "samples": 198
   },
   "L1|광운대|석계": {
-   "sec": 165,
-   "samples": 308
+   "sec": 153,
+   "samples": 302
   },
   "L1|석계|신이문": {
    "sec": 150,
-   "samples": 306
+   "samples": 300
   },
   "L1|신이문|외대앞": {
    "sec": 90,
-   "samples": 308
+   "samples": 301
   },
   "L1|외대앞|회기": {
    "sec": 120,
-   "samples": 308
+   "samples": 301
   },
   "L1|남영|용산": {
    "sec": 150,
-   "samples": 394
+   "samples": 379
   },
   "L1|용산|노량진": {
-   "sec": 210,
-   "samples": 555
+   "sec": 206,
+   "samples": 541
   },
   "L1|노량진|대방": {
    "sec": 150,
-   "samples": 553
+   "samples": 541
   },
   "L1|대방|신길": {
    "sec": 90,
-   "samples": 551
+   "samples": 539
   },
   "L1|신길|영등포": {
    "sec": 150,
-   "samples": 551
+   "samples": 539
   },
   "L1|영등포|신도림": {
-   "sec": 150,
-   "samples": 586
+   "sec": 149,
+   "samples": 574
   },
   "L1|신도림|구로": {
-   "sec": 165,
-   "samples": 584
+   "sec": 164,
+   "samples": 572
   },
   "L1|구로|구일": {
    "sec": 165,
-   "samples": 189
+   "samples": 178
   },
   "L1|구일|개봉": {
-   "sec": 120,
-   "samples": 194
+   "sec": 134,
+   "samples": 185
   },
   "L1|개봉|오류동": {
    "sec": 150,
-   "samples": 191
+   "samples": 180
   },
   "L1|오류동|온수": {
    "sec": 180,
-   "samples": 190
+   "samples": 179
   },
   "L1|온수|역곡": {
-   "sec": 120,
-   "samples": 194
+   "sec": 130,
+   "samples": 185
   },
   "L1|역곡|소사": {
    "sec": 150,
-   "samples": 190
+   "samples": 179
   },
   "L1|소사|부천": {
-   "sec": 120,
-   "samples": 195
+   "sec": 127,
+   "samples": 186
   },
   "L1|부천|중동": {
    "sec": 150,
-   "samples": 191
+   "samples": 180
   },
   "L1|중동|송내": {
-   "sec": 120,
-   "samples": 194
+   "sec": 126,
+   "samples": 185
   },
   "L1|송내|부개": {
    "sec": 120,
-   "samples": 191
+   "samples": 180
   },
   "L1|부개|부평": {
-   "sec": 150,
-   "samples": 194
+   "sec": 157,
+   "samples": 185
   },
   "L1|부평|백운": {
    "sec": 180,
-   "samples": 184
+   "samples": 176
   },
   "L1|백운|동암": {
    "sec": 150,
-   "samples": 185
+   "samples": 175
   },
   "L1|동암|간석": {
    "sec": 150,
-   "samples": 183
+   "samples": 175
   },
   "L1|간석|주안": {
    "sec": 150,
-   "samples": 184
+   "samples": 174
   },
   "L1|주안|도화": {
    "sec": 120,
-   "samples": 183
+   "samples": 174
   },
   "L1|도화|제물포": {
    "sec": 120,
-   "samples": 185
+   "samples": 174
   },
   "L1|제물포|도원": {
    "sec": 120,
-   "samples": 183
+   "samples": 174
   },
   "L1|도원|동인천": {
    "sec": 120,
-   "samples": 185
+   "samples": 180
   },
   "L1|동인천|인천": {
    "sec": 225,
-   "samples": 183
+   "samples": 180
   },
   "L1|구로|가산디지털단지": {
-   "sec": 285,
-   "samples": 256
+   "sec": 282,
+   "samples": 254
   },
   "L1|가산디지털단지|독산": {
    "sec": 150,
-   "samples": 255
+   "samples": 253
   },
   "L1|독산|금천구청": {
-   "sec": 150,
-   "samples": 256
+   "sec": 146,
+   "samples": 253
   },
   "L1|금천구청|광명": {
    "sec": 330,
@@ -433,90 +433,90 @@
   },
   "L1|금천구청|석수": {
    "sec": 180,
-   "samples": 224
+   "samples": 221
   },
   "L1|석수|관악": {
-   "sec": 150,
-   "samples": 224
+   "sec": 145,
+   "samples": 221
   },
   "L1|관악|안양": {
-   "sec": 180,
-   "samples": 223
+   "sec": 170,
+   "samples": 220
   },
   "L1|안양|명학": {
-   "sec": 180,
-   "samples": 224
+   "sec": 178,
+   "samples": 221
   },
   "L1|명학|금정": {
-   "sec": 150,
-   "samples": 224
+   "sec": 140,
+   "samples": 221
   },
   "L1|금정|군포": {
-   "sec": 210,
-   "samples": 223
+   "sec": 205,
+   "samples": 220
   },
   "L1|군포|당정": {
-   "sec": 120,
-   "samples": 226
+   "sec": 115,
+   "samples": 223
   },
   "L1|당정|의왕": {
-   "sec": 150,
-   "samples": 225
+   "sec": 145,
+   "samples": 222
   },
   "L1|의왕|성균관대": {
    "sec": 210,
-   "samples": 226
+   "samples": 222
   },
   "L1|성균관대|화서": {
    "sec": 180,
-   "samples": 227
+   "samples": 223
   },
   "L1|화서|수원": {
-   "sec": 180,
-   "samples": 226
+   "sec": 175,
+   "samples": 222
   },
   "L1|수원|세류": {
    "sec": 210,
-   "samples": 226
+   "samples": 222
   },
   "L1|세류|병점": {
    "sec": 285,
-   "samples": 226
+   "samples": 222
   },
   "L1|병점|서동탄": {
-   "sec": 375,
-   "samples": 80
+   "sec": 371,
+   "samples": 73
   },
   "L1|병점|세마": {
-   "sec": 195,
-   "samples": 148
+   "sec": 189,
+   "samples": 143
   },
   "L1|세마|오산대": {
-   "sec": 180,
-   "samples": 148
+   "sec": 169,
+   "samples": 143
   },
   "L1|오산대|오산": {
-   "sec": 240,
-   "samples": 147
+   "sec": 229,
+   "samples": 142
   },
   "L1|오산|진위": {
    "sec": 210,
-   "samples": 147
+   "samples": 142
   },
   "L1|진위|송탄": {
-   "sec": 210,
-   "samples": 147
+   "sec": 199,
+   "samples": 142
   },
   "L1|송탄|서정리": {
-   "sec": 180,
+   "sec": 169,
    "samples": 148
   },
   "L1|서정리|평택지제": {
-   "sec": 270,
+   "sec": 259,
    "samples": 148
   },
   "L1|평택지제|평택": {
-   "sec": 270,
+   "sec": 259,
    "samples": 147
   },
   "L1|평택|성환": {
@@ -524,184 +524,184 @@
    "samples": 147
   },
   "L1|성환|직산": {
-   "sec": 270,
+   "sec": 265,
    "samples": 146
   },
   "L1|직산|두정": {
-   "sec": 300,
+   "sec": 285,
    "samples": 148
   },
   "L1|두정|천안": {
-   "sec": 255,
+   "sec": 261,
    "samples": 147
   },
   "L1|천안|봉명": {
    "sec": 150,
-   "samples": 66
+   "samples": 63
   },
   "L1|봉명|쌍용": {
    "sec": 150,
-   "samples": 66
+   "samples": 63
   },
   "L1|쌍용|아산": {
    "sec": 150,
-   "samples": 66
+   "samples": 63
   },
   "L1|아산|탕정": {
    "sec": 180,
-   "samples": 66
+   "samples": 63
   },
   "L1|탕정|배방": {
    "sec": 210,
-   "samples": 66
+   "samples": 63
   },
   "L1|배방|온양온천": {
    "sec": 270,
-   "samples": 65
+   "samples": 62
   },
   "L1|온양온천|신창": {
-   "sec": 285,
-   "samples": 66
+   "sec": 284,
+   "samples": 63
   },
   "L3|대화|주엽": {
-   "sec": 135,
-   "samples": 216
+   "sec": 120,
+   "samples": 108
   },
   "L3|주엽|정발산": {
    "sec": 150,
-   "samples": 216
+   "samples": 108
   },
   "L3|정발산|마두": {
    "sec": 120,
-   "samples": 217
+   "samples": 108
   },
   "L3|마두|백석": {
    "sec": 150,
-   "samples": 216
+   "samples": 108
   },
   "L3|백석|대곡": {
    "sec": 210,
-   "samples": 216
+   "samples": 108
   },
   "L3|대곡|화정": {
    "sec": 180,
-   "samples": 216
+   "samples": 108
   },
   "L3|화정|원당": {
    "sec": 210,
-   "samples": 216
+   "samples": 108
   },
   "L3|원당|원흥": {
    "sec": 180,
-   "samples": 216
+   "samples": 108
   },
   "L3|원흥|삼송": {
    "sec": 150,
-   "samples": 217
+   "samples": 108
   },
   "L4|선바위|경마공원": {
    "sec": 120,
-   "samples": 213
+   "samples": 211
   },
   "L4|경마공원|대공원": {
    "sec": 120,
-   "samples": 212
+   "samples": 210
   },
   "L4|대공원|과천": {
    "sec": 120,
-   "samples": 212
+   "samples": 210
   },
   "L4|과천|정부과천청사": {
    "sec": 120,
-   "samples": 212
+   "samples": 210
   },
   "L4|정부과천청사|인덕원": {
    "sec": 210,
-   "samples": 212
+   "samples": 210
   },
   "L4|인덕원|평촌": {
    "sec": 150,
-   "samples": 210
+   "samples": 208
   },
   "L4|평촌|범계": {
    "sec": 120,
-   "samples": 211
+   "samples": 209
   },
   "L4|범계|금정": {
    "sec": 210,
-   "samples": 211
+   "samples": 209
   },
   "L4|금정|산본": {
    "sec": 270,
-   "samples": 211
+   "samples": 209
   },
   "L4|산본|수리산": {
    "sec": 120,
-   "samples": 210
+   "samples": 208
   },
   "L4|수리산|대야미": {
    "sec": 210,
-   "samples": 211
+   "samples": 209
   },
   "L4|대야미|반월": {
    "sec": 150,
-   "samples": 211
+   "samples": 209
   },
   "L4|반월|상록수": {
    "sec": 210,
-   "samples": 209
+   "samples": 207
   },
   "L4|상록수|한대앞": {
    "sec": 120,
-   "samples": 207
+   "samples": 205
   },
   "L4|한대앞|중앙": {
    "sec": 150,
-   "samples": 208
+   "samples": 206
   },
   "L4|중앙|고잔": {
    "sec": 120,
-   "samples": 208
+   "samples": 206
   },
   "L4|고잔|초지": {
    "sec": 150,
-   "samples": 209
-  },
-  "L4|초지|안산": {
-   "sec": 165,
    "samples": 207
   },
+  "L4|초지|안산": {
+   "sec": 162,
+   "samples": 205
+  },
   "L4|안산|능길": {
-   "sec": 195,
-   "samples": 181
+   "sec": 194,
+   "samples": 179
   },
   "L4|능길|정왕": {
    "sec": 180,
-   "samples": 181
+   "samples": 179
   },
   "L4|정왕|오이도": {
-   "sec": 165,
-   "samples": 182
+   "sec": 164,
+   "samples": 180
   },
   "SB|청량리|왕십리": {
-   "sec": 420,
-   "samples": 9
+   "sec": 480,
+   "samples": 5
   },
   "SB|왕십리|서울숲": {
-   "sec": 195,
-   "samples": 293
+   "sec": 200,
+   "samples": 292
   },
   "SB|서울숲|압구정로데오": {
    "sec": 120,
-   "samples": 292
+   "samples": 291
   },
   "SB|압구정로데오|강남구청": {
    "sec": 150,
-   "samples": 293
+   "samples": 292
   },
   "SB|강남구청|선정릉": {
    "sec": 90,
-   "samples": 293
+   "samples": 292
   },
   "SB|선정릉|선릉": {
    "sec": 120,
@@ -776,48 +776,48 @@
    "samples": 287
   },
   "SB|오리|죽전": {
-   "sec": 210,
+   "sec": 204,
    "samples": 288
   },
   "SB|죽전|보정": {
    "sec": 165,
-   "samples": 184
+   "samples": 180
   },
   "SB|보정|구성": {
    "sec": 165,
-   "samples": 184
+   "samples": 180
   },
   "SB|구성|신갈": {
    "sec": 150,
-   "samples": 183
+   "samples": 179
   },
   "SB|신갈|기흥": {
    "sec": 150,
-   "samples": 184
+   "samples": 180
   },
   "SB|기흥|상갈": {
    "sec": 150,
-   "samples": 184
+   "samples": 180
   },
   "SB|상갈|청명": {
    "sec": 210,
-   "samples": 183
+   "samples": 179
   },
   "SB|청명|영통": {
    "sec": 120,
-   "samples": 184
+   "samples": 180
   },
   "SB|영통|망포": {
    "sec": 150,
-   "samples": 185
+   "samples": 181
   },
   "SB|망포|매탄권선": {
    "sec": 150,
-   "samples": 185
+   "samples": 181
   },
   "SB|매탄권선|수원시청": {
    "sec": 180,
-   "samples": 185
+   "samples": 181
   },
   "SB|수원시청|매교": {
    "sec": 150,
@@ -828,111 +828,111 @@
    "samples": 188
   },
   "SB|수원|고색": {
-   "sec": 225,
+   "sec": 232,
    "samples": 187
   },
   "SB|고색|오목천": {
    "sec": 150,
-   "samples": 89
+   "samples": 83
   },
   "SB|오목천|어천": {
    "sec": 270,
-   "samples": 90
+   "samples": 83
   },
   "SB|어천|야목": {
    "sec": 180,
-   "samples": 89
+   "samples": 82
   },
   "SB|야목|사리": {
-   "sec": 285,
-   "samples": 89
+   "sec": 286,
+   "samples": 82
   },
   "SB|사리|한대앞": {
-   "sec": 225,
-   "samples": 90
+   "sec": 224,
+   "samples": 83
   },
   "SB|한대앞|중앙": {
    "sec": 150,
-   "samples": 90
+   "samples": 83
   },
   "SB|중앙|고잔": {
    "sec": 120,
-   "samples": 89
+   "samples": 82
   },
   "SB|고잔|초지": {
    "sec": 150,
-   "samples": 89
+   "samples": 82
   },
   "SB|초지|안산": {
    "sec": 150,
-   "samples": 90
+   "samples": 83
   },
   "SB|안산|능길": {
    "sec": 180,
-   "samples": 90
+   "samples": 83
   },
   "SB|능길|정왕": {
    "sec": 180,
-   "samples": 89
+   "samples": 82
   },
   "SB|정왕|오이도": {
    "sec": 180,
-   "samples": 89
+   "samples": 82
   },
   "SB|오이도|달월": {
-   "sec": 180,
-   "samples": 140
+   "sec": 174,
+   "samples": 133
   },
   "SB|달월|월곶": {
    "sec": 150,
-   "samples": 140
+   "samples": 133
   },
   "SB|월곶|소래포구": {
    "sec": 120,
-   "samples": 141
+   "samples": 134
   },
   "SB|소래포구|인천논현": {
    "sec": 120,
-   "samples": 140
+   "samples": 133
   },
   "SB|인천논현|호구포": {
    "sec": 120,
-   "samples": 140
+   "samples": 133
   },
   "SB|호구포|남동인더스파크": {
    "sec": 120,
-   "samples": 140
+   "samples": 133
   },
   "SB|남동인더스파크|원인재": {
    "sec": 120,
-   "samples": 140
+   "samples": 133
   },
   "SB|원인재|연수": {
    "sec": 120,
-   "samples": 139
+   "samples": 132
   },
   "SB|연수|송도": {
    "sec": 210,
-   "samples": 140
+   "samples": 133
   },
   "SB|송도|인하대": {
    "sec": 150,
-   "samples": 140
+   "samples": 133
   },
   "SB|인하대|숭의": {
    "sec": 150,
-   "samples": 139
+   "samples": 132
   },
   "SB|숭의|신포": {
    "sec": 150,
-   "samples": 139
+   "samples": 132
   },
   "SB|신포|인천": {
-   "sec": 105,
-   "samples": 139
+   "sec": 104,
+   "samples": 132
   },
   "GC|청량리|회기": {
-   "sec": 195,
+   "sec": 197,
    "samples": 18
   },
   "GC|회기|중랑": {
@@ -944,288 +944,288 @@
    "samples": 10
   },
   "GC|상봉|망우": {
-   "sec": 120,
-   "samples": 102
+   "sec": 123,
+   "samples": 98
   },
   "GC|망우|신내": {
    "sec": 195,
-   "samples": 102
+   "samples": 98
   },
   "GC|신내|갈매": {
    "sec": 210,
-   "samples": 102
+   "samples": 98
   },
   "GC|갈매|별내": {
    "sec": 120,
-   "samples": 102
+   "samples": 98
   },
   "GC|별내|퇴계원": {
    "sec": 150,
-   "samples": 101
+   "samples": 97
   },
   "GC|퇴계원|사릉": {
    "sec": 210,
-   "samples": 101
+   "samples": 97
   },
   "GC|사릉|금곡": {
    "sec": 210,
-   "samples": 101
+   "samples": 97
   },
   "GC|금곡|평내호평": {
    "sec": 240,
-   "samples": 101
+   "samples": 97
   },
   "GC|평내호평|천마산": {
    "sec": 240,
-   "samples": 96
+   "samples": 94
   },
   "GC|천마산|마석": {
    "sec": 150,
-   "samples": 97
+   "samples": 95
   },
   "GC|마석|대성리": {
    "sec": 360,
-   "samples": 84
+   "samples": 82
   },
   "GC|대성리|청평": {
    "sec": 390,
-   "samples": 83
+   "samples": 81
   },
   "GC|청평|상천": {
    "sec": 270,
-   "samples": 83
+   "samples": 81
   },
   "GC|상천|가평": {
    "sec": 360,
-   "samples": 84
+   "samples": 82
   },
   "GC|가평|굴봉산": {
    "sec": 270,
-   "samples": 84
+   "samples": 82
   },
   "GC|굴봉산|백양리": {
    "sec": 210,
-   "samples": 83
+   "samples": 81
   },
   "GC|백양리|강촌": {
    "sec": 300,
-   "samples": 83
+   "samples": 81
   },
   "GC|강촌|김유정": {
    "sec": 360,
-   "samples": 83
+   "samples": 81
   },
   "GC|김유정|남춘천": {
    "sec": 330,
-   "samples": 84
+   "samples": 82
   },
   "GC|남춘천|춘천": {
-   "sec": 195,
-   "samples": 83
+   "sec": 194,
+   "samples": 81
   },
   "GJ|문산|파주": {
-   "sec": 225,
-   "samples": 171
+   "sec": 224,
+   "samples": 165
   },
   "GJ|파주|월롱": {
    "sec": 180,
-   "samples": 171
+   "samples": 165
   },
   "GJ|월롱|금촌": {
    "sec": 240,
-   "samples": 171
+   "samples": 165
   },
   "GJ|금촌|금릉": {
    "sec": 150,
-   "samples": 171
+   "samples": 165
   },
   "GJ|금릉|운정": {
    "sec": 210,
-   "samples": 172
+   "samples": 166
   },
   "GJ|운정|야당": {
    "sec": 120,
-   "samples": 173
+   "samples": 167
   },
   "GJ|야당|탄현": {
    "sec": 150,
-   "samples": 174
+   "samples": 168
   },
   "GJ|탄현|일산": {
    "sec": 150,
-   "samples": 174
+   "samples": 168
   },
   "GJ|일산|풍산": {
-   "sec": 150,
-   "samples": 185
+   "sec": 149,
+   "samples": 179
   },
   "GJ|풍산|백마": {
    "sec": 150,
-   "samples": 185
+   "samples": 179
   },
   "GJ|백마|곡산": {
    "sec": 150,
-   "samples": 185
+   "samples": 179
   },
   "GJ|곡산|대곡": {
    "sec": 180,
-   "samples": 185
+   "samples": 179
   },
   "GJ|대곡|능곡": {
-   "sec": 195,
-   "samples": 186
+   "sec": 194,
+   "samples": 180
   },
   "GJ|능곡|행신": {
-   "sec": 195,
-   "samples": 186
+   "sec": 196,
+   "samples": 180
   },
   "GJ|행신|강매": {
    "sec": 120,
-   "samples": 185
+   "samples": 179
   },
   "GJ|강매|한국항공대": {
    "sec": 180,
-   "samples": 186
+   "samples": 180
   },
   "GJ|한국항공대|수색": {
    "sec": 210,
-   "samples": 186
+   "samples": 180
   },
   "GJ|수색|디지털미디어시티": {
    "sec": 120,
-   "samples": 193
+   "samples": 188
   },
   "GJ|디지털미디어시티|가좌": {
    "sec": 150,
-   "samples": 192
+   "samples": 187
   },
   "GJ|가좌|홍대입구": {
    "sec": 150,
-   "samples": 142
+   "samples": 137
   },
   "GJ|홍대입구|서강대": {
    "sec": 120,
-   "samples": 143
+   "samples": 138
   },
   "GJ|서강대|공덕": {
    "sec": 180,
-   "samples": 143
+   "samples": 138
   },
   "GJ|공덕|효창공원앞": {
    "sec": 150,
-   "samples": 142
+   "samples": 137
   },
   "GJ|효창공원앞|용산": {
    "sec": 210,
-   "samples": 143
+   "samples": 138
   },
   "GJ|용산|이촌": {
    "sec": 240,
-   "samples": 144
+   "samples": 138
   },
   "GJ|이촌|서빙고": {
    "sec": 150,
-   "samples": 144
+   "samples": 138
   },
   "GJ|서빙고|한남": {
    "sec": 180,
-   "samples": 144
+   "samples": 138
   },
   "GJ|한남|옥수": {
    "sec": 150,
-   "samples": 144
+   "samples": 138
   },
   "GJ|옥수|응봉": {
    "sec": 150,
-   "samples": 144
+   "samples": 138
   },
   "GJ|응봉|왕십리": {
    "sec": 150,
-   "samples": 144
+   "samples": 138
   },
   "GJ|왕십리|청량리": {
-   "sec": 255,
-   "samples": 143
+   "sec": 256,
+   "samples": 137
   },
   "GJ|청량리|회기": {
    "sec": 225,
-   "samples": 144
+   "samples": 138
   },
   "GJ|회기|중랑": {
    "sec": 180,
-   "samples": 143
+   "samples": 137
   },
   "GJ|중랑|상봉": {
    "sec": 120,
-   "samples": 143
+   "samples": 137
   },
   "GJ|상봉|망우": {
    "sec": 120,
-   "samples": 142
+   "samples": 136
   },
   "GJ|망우|양원": {
    "sec": 180,
-   "samples": 143
+   "samples": 137
   },
   "GJ|양원|구리": {
    "sec": 240,
-   "samples": 142
+   "samples": 136
   },
   "GJ|구리|도농": {
-   "sec": 180,
-   "samples": 142
+   "sec": 190,
+   "samples": 136
   },
   "GJ|도농|양정": {
-   "sec": 240,
-   "samples": 142
+   "sec": 241,
+   "samples": 136
   },
   "GJ|양정|덕소": {
-   "sec": 210,
-   "samples": 143
+   "sec": 205,
+   "samples": 137
   },
   "GJ|덕소|도심": {
    "sec": 150,
-   "samples": 93
+   "samples": 87
   },
   "GJ|도심|팔당": {
-   "sec": 270,
-   "samples": 92
+   "sec": 269,
+   "samples": 86
   },
   "GJ|팔당|운길산": {
    "sec": 330,
-   "samples": 78
+   "samples": 72
   },
   "GJ|운길산|양수": {
    "sec": 150,
-   "samples": 78
+   "samples": 72
   },
   "GJ|양수|신원": {
    "sec": 270,
-   "samples": 78
+   "samples": 72
   },
   "GJ|신원|국수": {
    "sec": 210,
-   "samples": 78
+   "samples": 72
   },
   "GJ|국수|아신": {
-   "sec": 240,
-   "samples": 78
+   "sec": 251,
+   "samples": 72
   },
   "GJ|아신|오빈": {
    "sec": 210,
-   "samples": 78
+   "samples": 72
   },
   "GJ|오빈|양평(경의중앙선)": {
    "sec": 180,
-   "samples": 76
+   "samples": 70
   },
   "GJ|양평(경의중앙선)|원덕": {
    "sec": 360,
-   "samples": 76
+   "samples": 70
   },
   "GJ|원덕|용문": {
-   "sec": 285,
-   "samples": 75
+   "sec": 286,
+   "samples": 70
   },
   "GJ|용문|지평": {
    "sec": 300,
@@ -1268,7 +1268,7 @@
    "samples": 104
   },
   "GG|이천|부발": {
-   "sec": 240,
+   "sec": 236,
    "samples": 105
   },
   "GG|부발|세종대왕릉": {
@@ -1280,52 +1280,52 @@
    "samples": 78
   },
   "SH|일산|풍산": {
-   "sec": 120,
-   "samples": 26
+   "sec": 135,
+   "samples": 52
   },
   "SH|풍산|백마": {
    "sec": 150,
-   "samples": 26
+   "samples": 52
   },
   "SH|백마|곡산": {
    "sec": 150,
-   "samples": 25
+   "samples": 51
   },
   "SH|곡산|대곡": {
    "sec": 210,
-   "samples": 25
+   "samples": 51
   },
   "SH|대곡|능곡": {
-   "sec": 150,
-   "samples": 71
+   "sec": 185,
+   "samples": 142
   },
   "SH|능곡|김포공항": {
-   "sec": 450,
-   "samples": 71
+   "sec": 405,
+   "samples": 142
   },
   "SH|김포공항|원종": {
    "sec": 300,
-   "samples": 71
+   "samples": 142
   },
   "SH|원종|부천종합운동장": {
    "sec": 180,
-   "samples": 70
+   "samples": 141
   },
   "L1|회기|청량리": {
    "sec": 180,
-   "samples": 309
+   "samples": 302
   },
   "L1|서울역|남영": {
    "sec": 180,
-   "samples": 359
+   "samples": 344
   },
   "L4|남태령|선바위": {
    "sec": 180,
    "samples": 104
   },
   "GJ|가좌|신촌(경의중앙선)": {
-   "sec": 540,
-   "samples": 36
+   "sec": 210,
+   "samples": 25
   },
   "EL|기흥|강남대": {
    "sec": 75,
@@ -1385,35 +1385,35 @@
   },
   "SBD|신사|논현": {
    "sec": 60,
-   "samples": 280
+   "samples": 279
   },
   "SBD|논현|신논현": {
    "sec": 90,
-   "samples": 279
+   "samples": 278
   },
   "SBD|신논현|강남": {
    "sec": 120,
-   "samples": 279
+   "samples": 278
   },
   "SBD|강남|양재": {
    "sec": 120,
-   "samples": 279
+   "samples": 278
   },
   "SBD|양재|양재시민의숲": {
    "sec": 150,
-   "samples": 280
+   "samples": 279
   },
   "SBD|양재시민의숲|청계산입구": {
    "sec": 180,
-   "samples": 279
+   "samples": 278
   },
   "SBD|청계산입구|판교": {
    "sec": 360,
-   "samples": 279
+   "samples": 278
   },
   "SBD|판교|정자": {
    "sec": 180,
-   "samples": 277
+   "samples": 276
   },
   "SBD|정자|미금": {
    "sec": 180,
@@ -1442,6 +1442,214 @@
   "SBD|광교중앙|광교": {
    "sec": 180,
    "samples": 273
+  },
+  "L8|별내|다산": {
+   "sec": 170,
+   "samples": 137
+  },
+  "L8|다산|동구릉": {
+   "sec": 195,
+   "samples": 272
+  },
+  "L8|동구릉|구리": {
+   "sec": 200,
+   "samples": 271
+  },
+  "L8|구리|장자호수공원": {
+   "sec": 165,
+   "samples": 272
+  },
+  "L8|장자호수공원|암사역사공원": {
+   "sec": 250,
+   "samples": 134
+  },
+  "L4|진접|오남": {
+   "sec": 166,
+   "samples": 125
+  },
+  "L4|오남|별내별가람": {
+   "sec": 420,
+   "samples": 125
+  },
+  "UI|북한산우이|솔밭공원": {
+   "sec": 60,
+   "samples": 451
+  },
+  "UI|솔밭공원|4.19민주묘지": {
+   "sec": 90,
+   "samples": 451
+  },
+  "UI|4.19민주묘지|가오리": {
+   "sec": 120,
+   "samples": 453
+  },
+  "UI|가오리|화계": {
+   "sec": 90,
+   "samples": 451
+  },
+  "UI|화계|삼양": {
+   "sec": 90,
+   "samples": 452
+  },
+  "UI|삼양|삼양사거리": {
+   "sec": 120,
+   "samples": 453
+  },
+  "UI|삼양사거리|솔샘": {
+   "sec": 120,
+   "samples": 452
+  },
+  "UI|솔샘|북한산보국문": {
+   "sec": 150,
+   "samples": 454
+  },
+  "UI|북한산보국문|정릉": {
+   "sec": 150,
+   "samples": 453
+  },
+  "UI|정릉|성신여대입구": {
+   "sec": 120,
+   "samples": 452
+  },
+  "UI|성신여대입구|보문": {
+   "sec": 120,
+   "samples": 453
+  },
+  "UI|보문|신설동": {
+   "sec": 120,
+   "samples": 453
+  },
+  "SL|샛강|대방": {
+   "sec": 60,
+   "samples": 162
+  },
+  "SL|대방|서울지방병무청": {
+   "sec": 120,
+   "samples": 162
+  },
+  "SL|서울지방병무청|보라매": {
+   "sec": 60,
+   "samples": 162
+  },
+  "SL|보라매|보라매공원": {
+   "sec": 120,
+   "samples": 163
+  },
+  "SL|보라매공원|보라매병원": {
+   "sec": 120,
+   "samples": 162
+  },
+  "SL|보라매병원|당곡": {
+   "sec": 90,
+   "samples": 324
+  },
+  "SL|당곡|신림": {
+   "sec": 120,
+   "samples": 325
+  },
+  "SL|신림|서원": {
+   "sec": 105,
+   "samples": 325
+  },
+  "SL|서원|서울대벤처타운": {
+   "sec": 150,
+   "samples": 324
+  },
+  "SL|서울대벤처타운|관악산": {
+   "sec": 120,
+   "samples": 324
+  },
+  "GF|양촌|구래": {
+   "sec": 83,
+   "samples": 158
+  },
+  "GF|구래|마산": {
+   "sec": 114,
+   "samples": 439
+  },
+  "GF|마산|장기": {
+   "sec": 153,
+   "samples": 440
+  },
+  "GF|장기|운양": {
+   "sec": 151,
+   "samples": 441
+  },
+  "GF|운양|걸포북변": {
+   "sec": 164,
+   "samples": 442
+  },
+  "GF|걸포북변|사우": {
+   "sec": 91,
+   "samples": 443
+  },
+  "GF|사우|풍무": {
+   "sec": 135,
+   "samples": 443
+  },
+  "GF|풍무|고촌": {
+   "sec": 186,
+   "samples": 444
+  },
+  "GF|고촌|김포공항": {
+   "sec": 133,
+   "samples": 444
+  },
+  "UJ|발곡|회룡": {
+   "sec": 97,
+   "samples": 371
+  },
+  "UJ|회룡|범골": {
+   "sec": 94,
+   "samples": 372
+  },
+  "UJ|범골|경전철의정부": {
+   "sec": 90,
+   "samples": 371
+  },
+  "UJ|경전철의정부|의정부시청": {
+   "sec": 103,
+   "samples": 371
+  },
+  "UJ|의정부시청|흥선": {
+   "sec": 86,
+   "samples": 371
+  },
+  "UJ|흥선|의정부중앙": {
+   "sec": 103,
+   "samples": 372
+  },
+  "UJ|의정부중앙|동오": {
+   "sec": 90,
+   "samples": 371
+  },
+  "UJ|동오|새말": {
+   "sec": 79,
+   "samples": 370
+  },
+  "UJ|새말|경기도청북부청사": {
+   "sec": 78,
+   "samples": 371
+  },
+  "UJ|경기도청북부청사|효자": {
+   "sec": 75,
+   "samples": 372
+  },
+  "UJ|효자|곤제": {
+   "sec": 85,
+   "samples": 371
+  },
+  "UJ|곤제|어룡": {
+   "sec": 91,
+   "samples": 371
+  },
+  "UJ|어룡|송산": {
+   "sec": 73,
+   "samples": 371
+  },
+  "UJ|송산|탑석": {
+   "sec": 69,
+   "samples": 372
   }
  }
 }

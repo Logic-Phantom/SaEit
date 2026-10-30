@@ -4,28 +4,33 @@
 
 2~6명이 각자 출발역을 넣으면 **가장 오래 걸리는 사람의 시간이 가장 짧은 역**(최대 소요시간 최소화)을 추천하고, 각자 몇 분·몇 번 환승인지 나란히 보여 주는 **토스 미니앱(앱인토스 WebView)**.
 
-> **현재 상태 (2026-10-30)**: 엔진·데이터 빌드·전체 화면 구현, 자동 테스트 37개 통과, `.ait` 빌드 성공. **범위 C(수도권 전체) 17개 노선·역 535개**, 시간은 서울교통공사 공식 운행시간 + 국토교통부(TAGO) 평일 시간표로 산출. **Phase 0 커버리지 게이트 통과**(13개 주요 노선 95~100%). 남은 게이트는 정확도 20경로(지도 앱 값 입력 대기). 앱인토스 샌드박스·토스앱 확인은 아직 하지 않았다.
+> **현재 상태 (2026-10-30)**
+> - **앱인토스 검토 중** — 버전 `20261030-1`(SDK 3.9.0), 2026-10-30 검토 요청. 결과는 영업일 3~7일 내 이메일. 승인 후 콘솔 '출시하기'(소유자 확인 후).
+> - 콘솔 등록(사잇 / appName `saeit` / 비게임 / 생활>교통>기타) · `.ait` 업로드 · **토스앱 QR 테스트(소유자, 문제 없음)** 완료.
+> - 데이터: **수도권 21개 노선·역 581개**. 시간은 서울교통공사 공식 운행시간 + 국토교통부(TAGO) 평일 시간표(공식값 대비 중앙값 +30초·최대 +90초). Phase 0 **커버리지 게이트 통과**, **정확도 게이트는 입력 대기**(지도 앱 실측 0/20).
+> - 자동 테스트 44개(data-build 22 + app 22)·타입 검사·빌드·`.ait` 통과.
 
 ## 상태표
-`구현` = 코드 있음 · `자동 테스트 통과` · `브라우저 확인` = Vite 개발 서버 360px · `샌드박스 확인` · `토스앱 확인`
+`구현` = 코드 있음 · `자동 테스트 통과` · `브라우저 확인` = 개발 서버 360px · `토스앱 확인` = 소유자 QR 테스트
 
 | 영역 | 상태 | 비고 |
 |---|---|---|
-| Phase 0 원본 수집 | ✅ 완료 | `npm run data:fetch` — 9종(로그인 불필요 파일데이터), `docs/DATA_SOURCES.md` |
+| 공공데이터 원본 수집 | ✅ 완료 | `npm run data:fetch` — 9종, `docs/DATA_SOURCES.md` |
+| 시간표(TAGO) 수집·역간 시간 산출 | ✅ 실행 | 역 520/520, 시간표 1,040개(원본 git 제외, 결과 `data-build/derived/` 커밋). 방향 판단 D-041 |
 | Phase 0 커버리지 게이트(주요 노선 시간 보유율 ≥ 80%) | ✅ 통과 | 13개 주요 노선 95~100% — `docs/COVERAGE.md` |
-| 시간표(TAGO) 수집·역간 시간 산출 | ✅ 실행 | 역 444/444, 시간표 888개 → 추정 구간 365개 중 360개 산출. 공식값 대비 중앙값 +30초(정차 포함) |
-| Phase 0 정확도 게이트(20경로 평균 오차 ≤ 5분) | ⏳ 입력 대기 | 엔진 값 채움, 지도 앱 값은 사용자 입력 — `docs/ACCURACY.md` |
-| 데이터 빌드(어댑터 6종·정규화·동명이역·거리 모델·검증·COVERAGE·ACCURACY 생성) | 자동 테스트 통과 | 서울교통공사 시간·환승, 국가철도공단 거리(코레일 해석 규칙 D-032), 신분당선 역 순서 |
-| 엔진(다익스트라·후보 평가·정렬·공평 점수·경로 복원) | 자동 테스트 통과 | 6명 × 278역 0.6 ms(Node, 데스크톱). 535역은 자동 테스트 상한 200ms 안 |
-| 홈 / 출발역 입력 / 역 검색(초성·부분·최근) | 브라우저 확인 | |
-| 추천 결과 / 다른 후보 / 상세 경로 / 개인 경로 타임라인 | 브라우저 확인 | 지도 없음(세로 타임라인) |
-| 공유(링크 생성·복사·공유 시트) | 브라우저 확인 | 토스: `Share.createLink`·`sendMessage` **미확인** |
-| 링크로 참여 / 나도 추가해서 다시 찾기 | 구현 | 쿼리 추출·검증은 자동 테스트 통과 |
-| 토스 진입 딥링크(`Environment.initialURL`) | 구현 | **토스앱 확인 필요**(D-009) |
-| 이용 기록·최근 역(로컬 저장) | 브라우저 확인 | 토스 Storage 재진입 유지 **미확인** |
-| 설정(계산 기준·데이터 출처·개인정보·오픈소스 라이선스) | 브라우저 확인 | |
-| 앱인토스 설정·`ait build` | 구현 | `saeit.ait` 생성. appName 콘솔 미확정 |
-| 인앱 광고(Phase 4) / 공유 세션(Phase 5) / 막차·배차(Phase 6) | ❌ 미착수 | |
+| Phase 0 정확도 게이트(20경로 MAE ≤ 5분) | ⏳ **입력 대기** | 엔진 값·직통 대안 채움, 지도 앱 실측 0/20 — `docs/ACCURACY.md`, 검토 `docs/ACCURACY_REVIEW.md` |
+| 데이터 빌드(어댑터 7종·정규화·동명이역·거리 모델·시간표 산출·검증) | 자동 테스트 통과 | 서울교통공사 시간·환승, 국가철도공단 거리(코레일 해석 D-032), 수동 역 순서, TAGO |
+| 엔진(다익스트라·후보 평가·정렬·공평 점수·경로 복원) | 자동 테스트 통과 | 6명 × 581역 중앙 2.2 ms·최악 12 ms(Node). 실기기 수치 미측정 |
+| 홈 / 출발역 입력 / 역 검색(초성·부분·최근) | 토스앱 확인 | 소유자 QR 테스트 "문제 없음"(항목별 기록 없음) |
+| 추천 결과 / 다른 후보 / 상세 경로 / 개인 경로 타임라인 | 토스앱 확인 | 지도 없음(세로 타임라인) |
+| 공유(링크 생성·복사·공유 시트) | 토스앱 확인 | 소유자 테스트 기준. 공유 링크 미리보기 이미지는 토스 기본(OG 미지정) |
+| 링크로 참여 / 나도 추가해서 다시 찾기 | 자동 테스트 통과 | 쿼리 추출·검증 |
+| 진입 링크(`intoss://saeit/result·input·join·history`) | 자동 테스트 통과 | 결과 링크 외 경로는 토스앱 미확인 → 콘솔 '주요 기능' 미등록 |
+| 이용 기록·최근 역(로컬 저장) | 토스앱 확인 | 소유자 테스트 기준 |
+| 설정(계산 기준·데이터 출처·개인정보·오픈소스 라이선스) | 토스앱 확인 | |
+| 앱인토스 콘솔 등록·검토 요청 | ✅ 검토 중 | `docs/STORE_LISTING.md`, `docs/RELEASE_CHECKLIST.md` |
+| 번들 분할(앱·그래프·라이브러리) | 구현 | 가장 큰 파일 378 KB |
+| 인앱 광고(Phase 4) / 공유 세션(Phase 5) / 막차·배차·급행(Phase 6) | ❌ 미착수 | |
 
 ## 실행
 요구: Node.js 24+
@@ -70,38 +75,42 @@ python scripts/build-app-icons.py
 ## 아키텍처
 ```
 [데이터 빌드]  data-build/ (Node 24 + TS, 타입 제거 실행)
-  fetch-raw(포털·열린데이터 다운로드) ─▶ raw/*.csv(CP949 원본 그대로)
-  ─▶ sources/ seoul-metro-runtime(1~8호선 시간) · transfers(환승 보행) · krna-distance(9호선·공항철도 거리)
-  ─▶ normalize-station(역명·부역명 별칭·같은 역 매핑·초성)
-  ─▶ estimate(거리 → 시간 회귀 sec = 23.9 + 63.2·km) ─▶ build-graph(노드=(역,노선), 주행·환승 간선, 역ID 레지스트리)
-  ─▶ validate(연결 요소·0초·중복·환승 누락) ─▶ app/src/data/graph.v1.json + docs/COVERAGE.md
-  ─▶ accuracy(앱 엔진으로 기준 20경로 계산) ─▶ docs/ACCURACY.md
+  fetch-raw(포털·열린데이터) ─▶ raw/*.csv(원본 그대로)      tago/fetch(.env 키) ─▶ raw/tago/(git 제외)
+  ─▶ sources/ seoul-metro-runtime(1~8호선 시간) · transfers(환승 보행) · krna-distance(9호선·공항·에버라인)
+             korail-distance(코레일 노선 해석) · manual-lines(신분당·우이신설·신림·김포골드·의정부·별내선·진접선 역 순서)
+  ─▶ normalize-station(부역명 별칭·같은 역·동명이역·초성)
+  ─▶ tago/apply(시간표 → 역간 시간, derived/tago-pair-times.json) ─▶ estimate(남은 구간 거리 회귀)
+  ─▶ build-graph(노드=(역,노선), 주행·환승 간선, 역ID 레지스트리) ─▶ validate
+  ─▶ app/src/data/graph.v1.json + docs/COVERAGE.md ─▶ accuracy(기준 20경로) ─▶ docs/ACCURACY.md
 
-[미니앱]  app/ (Vite + React + TS + @apps-in-toss/web-framework 3.9.0, CSR, 해시 라우팅)
+[미니앱]  app/ (Vite 8 + React 19 + TS + @apps-in-toss/web-framework 3.9.0, CSR, 해시 라우팅)
   engine/    순수 함수: prepareGraph · shortestFromStation(멀티 소스, 시간→환승 사전순) · evaluate · routeTo
-  features/  share(링크 코덱·검증) · station-search(초성/부분 일치) · results(useResult)
+  features/  share(링크 코덱·진입 링크 검증) · station-search(초성/부분 일치) · results(useResult)
   platform/  toss.ts — 토스 안이면 SDK(Share·Clipboard·Environment), 밖이면 브라우저 대체
-  storage/   kv.ts(토스 Storage ↔ localStorage 어댑터) · records.ts(기록 20개·최근 역 8개)
+  storage/   kv.ts(토스 Storage ↔ localStorage) · records.ts(기록 20개·최근 역 8개)
   routes/    Home · Input · Search · Result · Candidates · Detail · RouteView · Share · Join · History · Settings
-  styles/    design-tokens.css(색·간격·타이포·모서리) · app.css · screens.css
+  styles/    design-tokens.css · app.css · screens.css
 
 공유 링크 = intoss://saeit/result?v=1&s=S0012,S0450&n=민지,준호&m=all&t=1   ← 서버 없음
 ```
-- 그래프를 앱 번들에 넣는다(현재 163.5 KB, gzip 전): 네트워크·CORS·서버 0.
+- 그래프를 앱 번들에 넣는다(179 KB, gzip 21 KB): 네트워크·CORS·서버 0.
 - 방장이 모두의 출발역을 넣고 결과를 링크로 공유 → 받은 사람도 같은 결과. "나도 추가"는 참가자를 더한 **새 링크**를 만든다.
-- 결정과 근거는 `docs/DECISIONS.md`(D-001~D-036).
+- 서비스 키는 `.env`(git 제외)와 GitHub Secrets `TAGO_SERVICE_KEY`에만 있다(D-037).
+- 결정과 근거는 `docs/DECISIONS.md`(D-001~D-042).
 
 ## 프로젝트 구조
 ```
 saeit/
-├─ README.md · CLAUDE.md · package.json(workspaces)
-├─ assets/brand/          icon-source.webp(사용자 제공 원본) · console-icon-600.png(콘솔 업로드용)
-├─ docs/                  DECISIONS · DATA_SOURCES · COVERAGE(자동) · ACCURACY · TOSS_COMPLIANCE · LICENSES · PRIVACY · TESTING
-│  └─ design/ui-reference-2.webp   UI_REFERENCE_2(디자인 참고, 번들 미포함)
-├─ data-build/            src/{fetch-raw,csv,sources/*,normalize-station,estimate,validate,report,build-graph,accuracy}.ts · raw/(공공데이터 원본) · fixtures/demo-lines.json · station-ids.json · tests/
+├─ README.md · CLAUDE.md · package.json(workspaces) · .env.example
+├─ assets/brand/          icon-source.webp(소유자 제공 원본) · console-icon-600.png(콘솔 로고, 원본) · console-icon-600-flat.png(예비안)
+├─ assets/store/          phone-01~04.png(콘솔 스크린샷 636×1048)
+├─ docs/                  DECISIONS · DATA_SOURCES · COVERAGE(자동) · ACCURACY(자동) · ACCURACY_REVIEW · TOSS_COMPLIANCE
+│                         STORE_LISTING · RELEASE_CHECKLIST · LICENSES · PRIVACY · TESTING · design/ui-reference-2.webp
+├─ data-build/            src/{fetch-raw,csv,sources/*,tago/*,normalize-station,estimate,validate,report,build-graph,accuracy}.ts
+│                         raw/(공공데이터 원본) · derived/(시간표 산출 결과) · fixtures/ · station-ids.json · tests/
 ├─ app/                   apps-in-toss.config.ts · index.html · public/brand/ · src/{engine,data,features,platform,storage,state,components,routes,styles,legal,lib} · tests/
-├─ scripts/               build-app-icons.py · generate-oss-licenses.mjs · bundle-size.mjs
-└─ .github/workflows/     ci.yml(typecheck·test·build) · data-build.yml(수동, PR 생성, 자동 머지 없음)
+├─ scripts/               build-app-icons.py · generate-oss-licenses.mjs · bundle-size.mjs · store-screenshots.mjs
+└─ .github/workflows/     ci.yml(typecheck·test·build) · data-build.yml(수동, refresh_tago 선택, PR 생성)
 ```
 
 ## 디자인
@@ -118,48 +127,36 @@ saeit/
 5. **`Environment.initialURL` 형식**: WebView에서 경로·쿼리 파싱 예시가 문서에 없다 → `result?` 뒤를 추출하는 방식으로 구현, 토스앱 확인 필요(D-009).
 6. **1순위 소스(15134768) 내용 불일치**(Phase 0에서 발견): 포털 설명과 달리 100행·거리만 있고 소요시간이 없다 → 서울 열린데이터광장 OA-12034를 주행 시간 소스로 씀(D-022).
 
-## Phase 0 결과 (2026-10-30)
-**수집**: 로그인 없이 받을 수 있는 원본 9종을 `data-build/raw/`에 저장(`npm run data:fetch`). 컬럼·이용허락·쓰는 이유/안 쓰는 이유는 `docs/DATA_SOURCES.md`.
-
-**그래프**: 역 278 · 노드 329 · 간선 756(81.6 KB), 검증 통과. 환승역 45곳, 환승 간선 114개 중 110개는 실측 보행시간(+대기 3분 가정), 4개는 기본값(9호선↔공항철도).
-
-| 게이트 | 결과 |
+## 진행 현황 요약
+| 단계 | 결과 |
 |---|---|
-| 주요 노선 시간 데이터 보유율 ≥ 80% | **미달** — 1~8호선 100% / 9호선·공항철도 0%(거리 기반 추정) / 신분당·수인분당·경의중앙 데이터 없음 |
-| 기준 20경로 평균 오차 ≤ 5분 | **입력 대기** — `docs/ACCURACY.md`에 지도 앱 값만 넣고 `npm run data:accuracy` |
+| 프로젝트 구조·MVP 화면 | 화면 11개, UI_REFERENCE_2 디자인, 원본 아이콘 기반 에셋 |
+| Phase 0 데이터 | 공공데이터 9종 수집 → 1순위 소스(15134768)에 소요시간이 없어 OA-12034로 변경(D-022) → 범위 C(수도권 전체, 사용자 선택) |
+| 시간표 | TAGO로 비서울교통공사 구간 시간 산출. 방향 판단을 세 차례 고쳐(D-039·D-041) 공식값 대비 최대 오차 440초 → 90초 |
+| 노선 | 21개: 1~9호선, 공항철도, 수인분당, 경의중앙, 경춘, 경강, 서해, 신분당, 에버라인, 우이신설, 신림, 김포골드, 의정부경전철 (+8호선 별내선·4호선 진접선) |
+| 정확도 검토 | 의심 경로 5개 그래프 오류 없음, 메모 2건 수정, 판정 규칙 보강(D-042) — 실측 입력 대기 |
+| 출시 | 콘솔 등록 → QR 테스트 → **검토 요청(검토 중)** |
 
-프롬프트 규칙에 따라 범위 축소안을 제시했고, **사용자가 C(수도권 전체)를 골랐다**(D-031). 진행 상황은 아래 "범위 C 진행".
+## 남은 작업
+**소유자**
+1. 앱인토스 검토 결과 확인(이메일) → 승인 시 콘솔 '출시하기'. 반려 시 사유 전달(로고 모서리 지적이면 `console-icon-600-flat.png`로 교체).
+2. `docs/ACCURACY.md` 20경로 지도 앱 실측(분·환승) 입력 → `npm run data:accuracy` → 정확도 판정.
+3. 광고 수익 누적 5,000원 초과 시 사업자 등록(5영업일 유예) — Phase 4 이후.
 
-| 안 | 범위 | 장점 | 위험·필요한 것 |
-|---|---|---|---|
-| **A (추천)** | 서울교통공사 1~8호선(서울 구간) + 9호선·공항철도를 "추정 포함"으로 표시 — **현재 번들 상태** | 서울 도심 대부분의 약속 장소를 커버, 추가 데이터 없이 바로 진행 | 9호선·공항철도 시간 오차(급행 미반영, 정확도 표로 확인), 신분당·수인분당 이용자는 출발역 선택 불가 |
-| B | 서울교통공사 1~8호선만 | 모든 시간이 실측 | 9호선(강서·여의도·강남) 사용자 누락이 큼 |
-| C | A + 9호선·공항철도·코레일 시간표 수집 후 전체 수도권 | 프롬프트 원래 범위 | TAGO 지하철 시간표 API 활용신청(서비스 키), 코레일 파일 해석 규칙·동명이역 표 작업 필요 |
-
-### 범위 C 진행 (2026-10-30)
-- **넣은 것**: 코레일 통합 거리 파일 해석(1호선 코레일 구간, 3호선 대화~삼송, 4호선 과천·안산선, 수인분당·경의중앙·경춘·경강·서해선), 에버라인, 신분당선(역 순서만), 동명이역 구분(경의중앙선 양평·신촌). 그래프 17개 노선·역 535·간선 1550, 검증·위상 점검 통과.
-- **시간**: 서울교통공사 구간만 실측. 나머지는 거리 회귀 또는 기본값 추정 → TAGO 시간표로 대체할 준비 완료(`tago/fetch.ts` 수집, `tago/times.ts` 같은 종점 열차 짝짓기 중앙값, `tago/apply.ts` 반영).
-- **알려진 추정 오차**: 신분당선은 거리도 없어 역간 120초 → 판교→강남 엔진 8분(실제보다 크게 짧을 가능성). 코레일 노선은 서울교통공사 구간으로 적합한 회귀식을 써서 정차 시간이 긴 노선은 짧게 나올 수 있다.
-- **아직 없음**: 4호선 진접선, 8호선 별내선, 우이신설·신림·김포골드·인천1·2·의정부·GTX-A(원본에 역 목록 없음).
-
-### TAGO 시간표 반영 (2026-10-30)
-- 서비스 키로 역 444개·평일 시간표 888개(31 MB, git 제외)를 받아 365개 추정 구간 중 360개를 시간표로 바꿨다. 결과만 `data-build/derived/tago-pair-times.json`(24 KB)으로 커밋한다.
-- 방법 검증: 같은 구간을 공식값(OA-12034)과 비교하면 중앙값 +30초 — 시간표는 출발→출발이라 다음 역 정차가 포함된다(D-040). 회차역(사당→남태령 등)은 최대 +240초.
-- 남은 확인: 공항철도 인천공항1터미널→서울역 49분(일반열차 기준 짧을 수 있음), 급행 미반영, 정차 시간 기준 통일 여부 → 정확도 20경로로 판단.
-
-## 사용자가 할 일
-1. ~~범위 결정~~ → C 선택 완료.
-2. ~~TAGO 서비스 키~~ → `.env`와 GitHub Secrets(`TAGO_SERVICE_KEY`)에 등록 완료. 시간표를 새로 받을 때는 `npm run data:tago` 또는 Actions의 Data Build에서 `refresh_tago` 체크.
-3. `docs/ACCURACY.md` 20경로의 "지도 앱(분)·지도 앱 환승" 두 칸을 지도 앱으로 확인해 입력 → `npm run data:accuracy`.
-4. 앱인토스 콘솔 등록 → `appName` 확정(기본 제안 `saeit`), 앱 아이콘에 `assets/brand/console-icon-600.png` 업로드, 검색 키워드 "중간역, 중간지점, 약속장소, 모임장소" 입력, `.ait` 업로드·QR 테스트.
-5. KIPRIS에서 '사잇' 상표(9·39·42류) 확인.
-6. 광고 수익 누적 5,000원 초과 시 사업자 등록(5영업일 유예) — Phase 4 이후.
+**개발**
+1. 정확도 실측 결과에 따라: 9호선·공항철도 급행 반영(시간표에서 건너뛰는 열차로 급행 간선 생성), 정차 시간 기준 통일(D-040), 금정 등 기본값 환승 보완.
+2. 진입 링크(input·join·history) 토스앱 확인 → 다음 버전에서 콘솔 '주요 기능' 등록.
+3. 데이터 보강: 진접선·별내선 경계 2구간(운영사 ID 체계 차이로 추정), 인천 1·2호선·GTX-A(역 순서 확인 후), 휴일 시간표.
+4. 실기기 성능 측정(중급 Android), 키보드 가림·스크린 리더 점검.
+5. Phase 4 인앱 광고(WebView 배너 지원 재확인), Phase 5 공유 세션(선택), Phase 6 막차·배차.
 
 ## 문서
 | 문서 | 내용 |
 |---|---|
-| docs/DECISIONS.md | 결정·근거 URL·확인일 |
-| docs/DATA_SOURCES.md · COVERAGE.md · ACCURACY.md | 데이터 소스, 커버리지(자동), 정확도 검증 양식 |
+| docs/DECISIONS.md | 결정·근거·확인일(D-001~D-042) |
+| docs/DATA_SOURCES.md · COVERAGE.md | 데이터 소스·컬럼·이용허락, 노선별 커버리지(자동) |
+| docs/ACCURACY.md · ACCURACY_REVIEW.md | 정확도 20경로(자동, 실측 입력), 의심 경로 검토·판정 규칙 |
+| docs/STORE_LISTING.md · RELEASE_CHECKLIST.md | 콘솔 등록 내용, 출시 전 체크리스트 |
 | docs/TOSS_COMPLIANCE.md | 비게임 체크리스트 항목별 대응 |
 | docs/LICENSES.md · PRIVACY.md · TESTING.md | 라이선스 감사, 개인정보, 테스트 결과 |
 
@@ -197,4 +194,29 @@ saeit/
 - **수정**: 노선 이름 완전 일치(‘1호선’이 부산·대전·인천1호선까지 잡던 문제), 수도권 밖 역 ID 제외, 바뀐 역명(불암산(당고개)) 매칭, 종점 ID 기준 짝짓기, **방향 다수결**(행별 판단 시 1호선 서울 구간이 약 500초로 틀리던 문제, D-039), 앱 지원 범위 안내·출처 문구.
 - **명령·결과**: `npm run data:tago` 역 444/444·시간표 888개 · `npm run data:build` 360/365 구간 반영, 역 535·간선 1550·164.6 KB, 검증 통과 · 공식값 대비 중앙값 +30초 · 커버리지 게이트 **통과** · `npm test` data-build 17 + app 20 통과 · `npm run typecheck` 오류 0 · 빌드·`.ait` 성공 · 브라우저 판교·수원·홍대입구 → 대림(최대 44분).
 - **검증하지 못한 것**: 정확도 20경로(지도 앱 값), 급행·휴일 시간표, 토스앱 동작.
+- **GitHub**: `main`에 커밋·푸시.
+
+### 2026-10-30 — 노선 추가·출시 준비
+- **노선 추가**: 8호선 별내선·4호선 진접선(연장), 우이신설·신림·김포골드·의정부경전철(역 순서 수동, 시간 TAGO). 4호선 당고개 → 불암산(개칭). 21개 노선·역 581.
+- **시간표 산출 개선**(D-041): 종점 묶음별 방향 판단 + 방향 코드 내 다수 방향 묶음만 사용. 공식값 대비 중앙값 +30초·평균 +33초·최대 +90초(이전 최대 +240초). 신림선(양방향 섞인 코드)·신분당선 장거리 구간 정상.
+- **출시 준비**: 콘솔 로고(모서리 없는 600×600), 스크린샷 4장(CDP 기기 흉내 스크립트), 진입 링크(input·join·history·settings, 테스트), `docs/STORE_LISTING.md`, `docs/RELEASE_CHECKLIST.md`.
+- **번들 분할**: 앱·그래프·라이브러리를 나눠 빌드 크기 경고 해소(가장 큰 파일 378 KB), 프로덕션 미리보기에서 동작 확인.
+- **성능**: 6명 × 581역 중앙 2.2 ms·최악 12 ms(Node).
+- **결과**: `npm test` data-build 17 + app 22 통과, 타입 오류 0, 커버리지 게이트 통과.
+- **GitHub**: `main`에 커밋·푸시.
+
+### 2026-10-30 — 정확도 인계 문서 반영·콘솔 앱 만들기 준비
+- **정확도 검토**(사용자 제공 `ACCURACY_PHASE0_CLAUDE_HANDOFF.md`): 의심 경로 7·10·13·17·19를 그래프·엔진으로 추적 → **그래프 오류 없음**. 7·10·19는 직통 간선이 있고 같은 비용 기준에서 환승 경로가 더 짧아 선택됨(10은 금정 환승 기본값 5분, 19는 9호선 급행 미반영이 한계). 13·17은 메모 오류라 수정. 가중치는 바꾸지 않음. 상세 `docs/ACCURACY_REVIEW.md`.
+- **정확도 스크립트 보강**(D-042): 판정 `입력 대기`/`통과`/`미통과`(20개 모두 유효 입력일 때만), 입력 검증, 절대 오차·MAE·표본 수·추정 제외 MAE·환승 불일치, 같은 노선 직통 대안 열. 인계 문서의 '임시 후보값'은 입력으로 쓰지 않음.
+- **회귀 테스트**: 입력 검증·판정·입력 보존 4개 + 실제 그래프(20개 도달, 엔진 ≤ 직통, 다중 노선 출발 0초, 지선·순환 연결) 1개. `npm test` data-build 22 + app 22 통과, 타입 오류 0.
+- **콘솔**(Claude in Chrome, 소유자 로그인): 소유자 확인 후 앱 생성(사잇 / `saeit` / 비게임). 등록 정보 입력·임시저장 — 번들 `.ait`(클립보드 권한 인식), 출시 노트, 영문명 Saeit, 부제, 상세 설명, 고객문의 이메일, 카테고리 생활>교통>기타, 로고(소유자 지정 원본 아이콘, 예비안 flat 보관), 스크린샷 4장(최신 빌드로 재생성), 키워드 6개. QR 테스트 완료(소유자, 문제 없음), 확인 체크(소유자), **검토 요청 완료 — 버전 20261030-1 '검토 중'**(영업일 3~7일 내 이메일).
+- **정확도 게이트**: 입력 대기(지도 앱 실측 0/20).
+- **GitHub**: `main`에 커밋·푸시.
+
+### 2026-10-30 — 앱인토스 콘솔 등록·QR 테스트·검토 요청
+- **콘솔**(Claude in Chrome, 소유자 로그인·2단계 인증): 앱 생성(사잇 / `saeit` / 비게임, 소유자 확인) → 1단계 기본 정보(`.ait` 업로드·클립보드 권한 인식, 출시 노트, 영문명 Saeit, 부제 "모두 비슷하게 걸리는 중간역 찾기", 상세 설명, 고객문의 이메일) → 2단계(생활>교통>기타, 로고 = 소유자 지정 원본 아이콘, 스크린샷 4장 최신 빌드로 재생성, 키워드 6개). 주요 기능은 진입 링크 미확인이라 비움.
+- **QR 테스트**: 소유자가 휴대폰으로 실행 — "문제 없음".
+- **확인 체크 5개**: 소유자가 직접 체크.
+- **검토 요청**: 버전 20261030-1(SDK 3.9.0) '검토 중'. 결과는 영업일 3~7일 내 이메일.
+- **README**: 현재 상태·상태표·아키텍처·진행 현황·남은 작업 전면 갱신.
 - **GitHub**: `main`에 커밋·푸시.

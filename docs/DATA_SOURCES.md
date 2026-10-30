@@ -12,7 +12,7 @@
 | 15041310 | 국가철도공단_공항철도_역간거리 | 2026-06-30 / 2026-10-06 | 이용허락범위 제한 없음 | 철도운영기관명, 선명, 역명, 역간거리, 후행역간거리 — 14행 | 공항철도 연결 + 거리 기반 시간 추정 | `sources/krna-distance.ts` |
 | 15081858 | 국가철도공단_코레일 역간거리 | 2025-12-31 / 2026-05-12 | 이용허락범위 제한 없음 | 철도운영기관명, 선명, 역명, 역간거리(km) — 447행 | 1호선 코레일 구간·3호선(대화~삼송)·4호선(과천·안산선)·수인분당·경의중앙·경춘·경강·서해선 연결 + 거리 추정 | `sources/korail-distance.ts` (해석 규칙 D-032) |
 | 15081850 | 국가철도공단_에버라인 역간거리 | 2025-12-31 / 2026-05-12 | 이용허락범위 제한 없음 | 철도운영기관명, 선명, 역명, 역간거리(km) — 15행 | 에버라인 연결(기흥에서 수인분당선과 환승) | `sources/krna-distance.ts` |
-| manual | 신분당선 역 순서(수동) | 2026-10-30 확인 | 사실 정보 | `fixtures/manual-lines.json` — 역 16개 순서만 | 신분당선 연결(시간 기본값 추정) | `sources/manual-lines.ts` (D-034) |
+| manual | 역 순서 수동 목록 | 2026-10-30 확인 | 사실 정보 | `fixtures/manual-lines.json` — 신분당선·우이신설선·신림선·김포골드라인·의정부경전철, 연장 구간 8호선 별내선·4호선 진접선(`extendsLine`) | 노선 연결(시간은 TAGO 시간표) | `sources/manual-lines.ts` (D-034) |
 | 15098554 | 국토교통부_(TAGO)_지하철정보 (OpenAPI) | 수집 시각 | 이용허락범위 제한 없음 | `GetKwrdFndSubwaySttnList` → subwayRouteName·subwayStationId·subwayStationName / `GetSubwaySttnAcctoSchdulList`(subwayStationId, dailyTypeCode 01·02·03, upDownTypeCode U·D) → subwayRouteId·subwayStationId·subwayStationNm·endSubwayStationId·endSubwayStationNm·dailyTypeCode·upDownTypeCode·depTime·arrTime(HHMISS) — 포털 Swagger 정의로 확인, **열차 번호 없음** | **시간표 → 역간 시간**(추정 구간 대체). 2026-10-30 수집: 역 444개 ID 매칭 444/444, 평일 시간표 888개(125,801행, 31 MB, git 제외) → 365개 추정 구간 중 360개 산출(`data-build/derived/tago-pair-times.json`, 24 KB) | `tago/fetch.ts`(수집, 서비스 키 필요) · `tago/apply.ts`·`tago/times.ts`(산출, D-035) |
 
 앱 표시 문구(설정 > 데이터 출처, 상세 화면 하단): 그래프 `sources[].attribution` — "출처: 서울교통공사, 공공누리 제1유형" 등.
@@ -30,8 +30,8 @@
 |---|---|---|
 | 9호선·공항철도·에버라인·1호선 코레일 구간·3·4호선 연장·수인분당·경강·서해선·신분당선 | **TAGO 시간표로 산출 완료** | 급행 반영(Phase 6) |
 | 경의중앙선 3구간·경춘선 1구간·3호선 1구간 | 표본 부족으로 거리 추정 남음 | 휴일 시간표 또는 다른 시간대 추가 |
-| 4호선 진접선(당고개~진접)·8호선 별내선·서해선 부천종합운동장 이남 | 없음 | 역 목록(원본 파일에 없음) |
-| 우이신설·신림·김포골드·인천1·2·의정부·GTX-A | 없음 | 역 목록·거리·시간 모두 |
+| 진접선 별내별가람→불암산·별내선 1구간 | 운영사별 역 ID 체계가 달라 시간표 짝짓기 불가 → 노선 평균 추정 | 운영사 시간표 |
+| 서해선 부천종합운동장 이남·인천1·2호선·GTX-A | 없음 | 역 순서(인천 1호선은 최근 연장 순서 미확인) |
 
 ## 다시 받기
 ```bash

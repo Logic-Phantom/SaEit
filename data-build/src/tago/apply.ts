@@ -20,9 +20,6 @@ export function deriveTagoPairs(sections: RawSection[], tagoDir: string): { deri
   const indexPath = join(tagoDir, 'index.json');
   if (!existsSync(indexPath)) return null;
   const index = JSON.parse(readFileSync(indexPath, 'utf8')) as TagoIndex;
-  // 종점 ID → 우리 역 이름(이름이 비어 있는 행용). 같은 노선 안의 ID만 쓴다
-  const idToName = new Map<string, string>();
-  for (const [k, id] of Object.entries(index.stations)) idToName.set(`${k.split('|')[0]}|${id}`, k.slice(k.indexOf('|') + 1));
   const cache = new Map<string, TagoSchedule[] | null>();
   const schedule = (lineId: string, name: string, dir: 'U' | 'D'): TagoSchedule[] | null => {
     const id = index.stations[`${lineId}|${name}`];
@@ -32,7 +29,10 @@ export function deriveTagoPairs(sections: RawSection[], tagoDir: string): { deri
     return cache.get(file)!;
   };
 
-  // 노선별 인접 목록(방향 판단용)
+  // 종점 ID → 우리 역 이름(종점 이름이 빈 행용). 같은 노선 안의 ID만 쓴다
+  const idToName = new Map<string, string>();
+  for (const [k, id] of Object.entries(index.stations)) idToName.set(`${k.split('|')[0]}|${id}`, k.slice(k.indexOf('|') + 1));
+  // 노선별 인접 목록(종점까지 남은 역 수로 방향 판단)
   const adj = new Map<string, Map<string, string[]>>();
   for (const s of sections) {
     const m = adj.get(s.lineId) ?? new Map<string, string[]>();
@@ -52,35 +52,55 @@ export function deriveTagoPairs(sections: RawSection[], tagoDir: string): { deri
   for (const s of sections) {
     if (!s.estimated) continue;
     const lineAdj = adj.get(s.lineId)!;
-    const secs: number[] = [];
-    let samples = 0;
+    /** 이 종점으로 가는 열차가 A → B 순서로 지나가는지. 종점을 그래프에서 못 찾으면 undefined */
+    const towardB = (r: TagoSchedule): boolean | undefined => {
+      const byName = r.endSubwayStationNm ? normalizeName(r.endSubwayStationNm, s.lineId) : undefined;
+      const end = byName && lineAdj.has(byName) ? byName : idToName.get(`${s.lineId}|${r.endSubwayStationId}`);
+      if (!end || !lineAdj.has(end)) return undefined;
+      const h = hops(s.lineId, end);
+      const ha = h.get(s.from);
+      const hb = h.get(s.to);
+      return ha != null && hb != null && ha !== hb ? hb < ha : undefined;
+    };
+    const groups: { sec: number; samples: number }[] = [];
     let any = false;
     for (const dir of ['U', 'D'] as const) {
       const a = schedule(s.lineId, s.from, dir);
       const b = schedule(s.lineId, s.to, dir);
       if (!a || !b) continue;
       any = true;
-      const towardB = (row: TagoSchedule) => {
-        const end = row.endSubwayStationNm ? normalizeName(row.endSubwayStationNm, s.lineId) : idToName.get(`${s.lineId}|${row.endSubwayStationId}`);
-        if (!end || !lineAdj.has(end)) return undefined;
-        const h = hops(s.lineId, end);
-        const ha = h.get(s.from);
-        const hb = h.get(s.to);
-        return ha != null && hb != null ? hb < ha : undefined;
-      };
-      // 한 방향 코드(U/D)는 이 구간에서 한쪽으로만 달린다. 어느 쪽인지는 종점 기준 다수결로 정한다(D-039).
-      // 행마다 종점으로 판단하면, 종점이 방향과 맞지 않는 행(예: 상행인데 종점 '제물포')이 반대로 짝지어져 큰 값이 나온다.
-      let votes = 0;
-      for (const r of [...a, ...b]) { const v = towardB(r); if (v != null) votes += v ? 1 : -1; }
-      if (votes === 0) continue;
-      const r = votes > 0 ? pairTime(a, b, () => true) : pairTime(b, a, () => true);
-      if (r) { secs.push(r.sec); samples += r.samples; }
+      // 방향 판단(D-041): 같은 종점 열차 묶음마다 종점 위치로 방향을 정하고, 방향 코드 안에서 표본 수 가중 다수 방향과 같은 묶음만 쓴다.
+      //  - 1호선 상행 코드의 '제물포' 묶음처럼 종점이 실제 진행과 안 맞는 묶음을 버린다.
+      //  - 신림선처럼 한 코드에 양방향이 섞이면 소수 방향 묶음을 버린다(남은 묶음만으로도 값은 같다).
+      //  - 종점을 하나도 못 찾을 때만 두 방향 중 짧은 쪽(배차의 절반보다 긴 구간에서는 틀릴 수 있어 마지막 수단).
+      const ends = new Set([...a, ...b].map((r) => r.endSubwayStationId));
+      const byEnd = [...ends].map((e) => {
+        const aE = a.filter((r) => r.endSubwayStationId === e);
+        const bE = b.filter((r) => r.endSubwayStationId === e);
+        const rep = aE[0] ?? bE[0];
+        return { aE, bE, toward: towardB(rep), n: aE.length + bE.length };
+      });
+      const vote = byEnd.reduce((t, g) => t + (g.toward == null ? 0 : (g.toward ? g.n : -g.n)), 0);
+      if (vote !== 0) {
+        for (const g of byEnd) {
+          if (g.toward == null || g.toward !== vote > 0) continue;
+          const r = g.toward ? pairTime(g.aE, g.bE, () => true) : pairTime(g.bE, g.aE, () => true);
+          if (r) groups.push(r);
+        }
+      } else {
+        for (const g of byEnd) {
+          const cands = [pairTime(g.aE, g.bE, () => true), pairTime(g.bE, g.aE, () => true)].filter((r): r is NonNullable<typeof r> => r != null);
+          if (cands.length) groups.push(cands.reduce((x, y) => (y.sec < x.sec ? y : x)));
+        }
+      }
     }
     if (any) tried++;
-    if (secs.length) pairs[pairKey(s.lineId, s.from, s.to)] = { sec: Math.round(secs.reduce((x, y) => x + y, 0) / secs.length), samples };
+    if (!groups.length) continue;
+    const samples = groups.reduce((t, g) => t + g.samples, 0);
+    pairs[pairKey(s.lineId, s.from, s.to)] = { sec: Math.round(groups.reduce((t, g) => t + g.sec * g.samples, 0) / samples), samples };
   }
   return {
-    derived: { fetchedAt: index.fetchedAt, dailyTypeCode: index.dailyTypeCode, method: '같은 방향·같은 종점 열차의 A역 출발→B역 출발 차, 평일 07~22시 중앙값(D-035)', pairs },
+    derived: { fetchedAt: index.fetchedAt, dailyTypeCode: index.dailyTypeCode, method: '같은 방향 코드·같은 종점 열차 묶음별 A역 출발→B역 출발 차의 중앙값(종점 위치로 방향 판단·코드 내 다수 방향 묶음만), 평일 07~22시, 묶음 표본 수 가중 평균(D-035, D-041)', pairs },
     tried,
   };
 }

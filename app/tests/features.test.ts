@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { Station } from '../src/engine';
 import { decodePayload, encodePayload, extractQuery, nicknameError } from '../src/features/share/codec';
+import { entryTarget } from '../src/features/share/entry';
+import { graph } from '../src/data/graph';
 import { searchStations } from '../src/features/station-search/search';
 import { memoryStore } from '../src/storage/kv';
 import { addHistory, addRecentStation, HISTORY_MAX, loadHistory, RECENT_MAX } from '../src/storage/records';
@@ -70,5 +72,20 @@ describe('로컬 기록', () => {
     const s = memoryStore();
     await s.set('saeit.history.v1', '{bad');
     expect(await loadHistory(s)).toEqual([]);
+  });
+});
+
+describe('진입 링크', () => {
+  const [a, b] = graph.raw.stations;
+  it('결과 링크는 검증 후 결과 화면', () => {
+    expect(entryTarget(`intoss://saeit/result?v=1&s=${a.id},${b.id}`)).toBe(`/result?v=1&s=${a.id}%2C${b.id}`);
+    expect(entryTarget('intoss://saeit/result?v=1&s=S9999,S9998')).toBeNull();
+  });
+  it('주요 기능 경로는 허용 목록만', () => {
+    expect(entryTarget('intoss://saeit/input')).toBe('/input');
+    expect(entryTarget('intoss-private://saeit/history?x=1')).toBe('/history');
+    expect(entryTarget('intoss://saeit/admin')).toBeNull();
+    expect(entryTarget('intoss://saeit')).toBeNull();
+    expect(entryTarget('https://evil.example/input')).toBeNull();
   });
 });

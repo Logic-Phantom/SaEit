@@ -163,7 +163,7 @@ export function loadRealDataset(): RawDataset & { skippedTransferLines: string[]
     aliases,
     skippedTransferLines: tr.skipped,
     note: tago.filled
-      ? '서울교통공사 구간은 공식 운행시간, 나머지 노선은 국토교통부 평일 시간표로 계산했어요. 우이신설·신림·김포골드·인천 1·2호선·의정부·GTX-A는 아직 지원하지 않아요.'
+      ? '서울교통공사 구간은 공식 운행시간, 나머지 노선은 국토교통부 평일 시간표로 계산했어요. 인천 1·2호선·GTX-A는 아직 지원하지 않아요.'
       : '9호선·공항철도·코레일 구간·신분당선·에버라인 시간은 거리 또는 평균값으로 추정했어요. 우이신설·신림·김포골드·인천 1·2호선·의정부·GTX-A는 아직 지원하지 않아요.',
     sources: [
       ...metro.sources,
@@ -173,7 +173,7 @@ export function loadRealDataset(): RawDataset & { skippedTransferLines: string[]
       krna('15081858', '국가철도공단_코레일 역간거리', '2025-12-31'),
       krna('15081850', '국가철도공단_에버라인 역간거리', '2025-12-31'),
       ...(tago.filled ? [{ id: '15098554', name: '국토교통부_(TAGO)_지하철정보 시간표(평일)', baseDate: tago.fetchedAt!.slice(0, 10), license: '이용허락범위 제한 없음', attribution: '출처: 국토교통부 TAGO (공공데이터포털) — 시간표로 역간 시간 산출' }] : []),
-      { id: 'manual', name: '신분당선 역 순서(운영사 공개 노선 정보, 수동 입력)', baseDate: '2026-10-30', license: '사실 정보(역 이름·순서)', attribution: tago.filled ? '신분당선 역 순서는 수동 입력, 시간은 국토교통부 시간표로 계산했어요.' : '신분당선 시간은 평균값으로 추정했어요.' },
+      { id: 'manual', name: '신분당선·우이신설·신림·김포골드·의정부경전철·8호선 별내선·4호선 진접선 역 순서(운영사 공개 노선 정보, 수동 입력)', baseDate: '2026-10-30', license: '사실 정보(역 이름·순서)', attribution: tago.filled ? '이 노선들의 역 순서는 수동 입력, 시간은 국토교통부 시간표로 계산했어요.' : '신분당선 시간은 평균값으로 추정했어요.' },
     ],
   };
 }
