@@ -1,4 +1,4 @@
-import type { Graph, PreparedGraph } from './types';
+import type { Graph, PreparedGraph } from './types.ts';
 
 export function prepareGraph(raw: Graph): PreparedGraph {
   const adj: PreparedGraph['adj'] = raw.nodes.map(() => []);

@@ -1,4 +1,6 @@
-# 그래프 재생성: 수동 실행 → raw → graph.v1.json·COVERAGE.md 재생성 → 검증 → PR 생성(자동 머지 금지)
+# 그래프 재생성: 수동 실행 → (선택) TAGO 시간표 수집 → raw → graph.v1.json·COVERAGE.md 재생성 → 검증 → PR 생성(자동 머지 금지)
+# 시간표를 새로 받으려면 저장소 Settings → Secrets and variables → Actions에 TAGO_SERVICE_KEY(일반 인증키 Decoding)를 등록한다.
+# 없으면 커밋된 data-build/derived/tago-pair-times.json으로 빌드한다.
 name: Data Build
 
 on:
@@ -8,6 +10,10 @@ on:
         description: "PR 설명에 넣을 메모(데이터 기준일 등)"
         type: string
         default: ""
+      refresh_tago:
+        description: "TAGO 시간표를 새로 받기(TAGO_SERVICE_KEY 시크릿 필요, 호출 약 1,100건)"
+        type: boolean
+        default: false
 
 concurrency:
   group: data-build
@@ -28,13 +34,21 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run data:build
+      - name: Fetch TAGO timetables
+        if: ${{ inputs.refresh_tago }}
+        env:
+          TAGO_SERVICE_KEY: ${{ secrets.TAGO_SERVICE_KEY }}
+        run: |
+          if [ -z "$TAGO_SERVICE_KEY" ]; then echo "::error::TAGO_SERVICE_KEY 시크릿이 없어요"; exit 1; fi
+          npm run data:tago
+          npm run data:build
       - run: npm test
       - name: Create PR when graph changed
         env:
           GH_TOKEN: ${{ github.token }}
           NOTE: ${{ inputs.note }}
         run: |
-          if git diff --quiet -- app/src/data docs/COVERAGE.md data-build/station-ids.json; then
+          if git diff --quiet -- app/src/data docs/COVERAGE.md data-build/station-ids.json data-build/derived; then
             echo "그래프 변경 없음" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
@@ -42,7 +56,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$branch"
-          git add app/src/data docs/COVERAGE.md data-build/station-ids.json
+          git add app/src/data docs/COVERAGE.md data-build/station-ids.json data-build/derived
           git commit -m "data: 그래프 재생성 (${GITHUB_RUN_ID})"
           git push origin "$branch"
           gh pr create --title "data: 그래프 재생성" --body "$(printf '자동 생성된 그래프 갱신. COVERAGE.md 변경을 검토한 뒤 직접 머지하세요.\n\n%s' "$NOTE")" --base main --head "$branch"

@@ -1,6 +1,6 @@
 // 최단 트리에서 한 사람의 경로를 복원해 '노선별 주행 구간 + 환승' 단계로 묶는다.
-import { bestArrival, type ShortestTree } from './dijkstra';
-import type { PathStep, PreparedGraph, RoutePath } from './types';
+import { bestArrival, type ShortestTree } from './dijkstra.ts';
+import type { PathStep, PreparedGraph, RoutePath } from './types.ts';
 
 export function routeTo(g: PreparedGraph, tree: ShortestTree, targetStation: number): RoutePath | null {
   const end = bestArrival(g, tree, targetStation);

@@ -1,5 +1,5 @@
 // 출발역의 모든 노선 노드에서 0초로 시작하는 다익스트라. 같은 시간이면 환승이 적은 경로를 고른다.
-import type { PreparedGraph } from './types';
+import type { PreparedGraph } from './types.ts';
 
 export interface ShortestTree {
   dist: Float64Array;

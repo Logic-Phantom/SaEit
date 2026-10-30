@@ -7,6 +7,8 @@ export interface Graph {
   version: number;
   builtAt: string;
   demo: boolean;
+  /** 지원 범위 안내(data-build가 채움) */
+  note?: string;
   sources: Source[];
   stations: Station[];
   lines: Line[];

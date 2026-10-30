@@ -1,4 +1,4 @@
-import type { CandidateResult, ParticipantResult } from './types';
+import type { CandidateResult, ParticipantResult } from './types.ts';
 
 export function summarize(stationIdx: number, per: ParticipantResult[]): CandidateResult {
   const secs = per.map((p) => p.sec);

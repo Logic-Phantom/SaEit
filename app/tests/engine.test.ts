@@ -121,7 +121,7 @@ describe('공평 점수', () => {
   });
 });
 
-describe('번들 그래프(데모)', () => {
+describe('번들 그래프', () => {
   it('6명 × 전체 역 계산이 빠르다', () => {
     const g = prepareGraph(graphJson as Graph);
     const starts = [0, 10, 20, 30, 40, 50];

@@ -4,6 +4,9 @@
   "workspaces": ["app", "data-build"],
   "scripts": {
     "data:build": "npm run build --workspace data-build",
+    "data:fetch": "npm run fetch --workspace data-build",
+    "data:accuracy": "npm run accuracy --workspace data-build",
+    "data:tago": "npm run tago --workspace data-build",
     "test": "npm run test --workspace data-build && npm run test --workspace app",
     "typecheck": "npm run typecheck --workspace data-build && npm run typecheck --workspace app",
     "dev": "npm run dev --workspace app",

@@ -1,6 +1,6 @@
-import { bestArrival, shortestFromStation, type ShortestTree } from './dijkstra';
-import { compareCandidates, summarize } from './fairness';
-import type { CandidateResult, Evaluation, EvaluateOptions, ParticipantResult, PreparedGraph } from './types';
+import { bestArrival, shortestFromStation, type ShortestTree } from './dijkstra.ts';
+import { compareCandidates, summarize } from './fairness.ts';
+import type { CandidateResult, Evaluation, EvaluateOptions, ParticipantResult, PreparedGraph } from './types.ts';
 
 export const MIN_PARTICIPANTS = 2;
 export const MAX_PARTICIPANTS = 6;

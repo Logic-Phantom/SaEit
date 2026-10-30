@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "build": "node src/build-graph.ts",
+    "build:demo": "node src/build-graph.ts --demo",
+    "accuracy": "node src/accuracy.ts",
+    "tago": "node src/tago/fetch.ts",
+    "fetch": "node src/fetch-raw.ts",
     "test": "node --test \"tests/**/*.test.ts\"",
     "typecheck": "tsc --noEmit"
   },

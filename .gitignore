@@ -7,3 +7,5 @@ dist/
 .claude/
 *.log
 .DS_Store
+# TAGO 원본 시간표(수십 MB). 산출 결과 data-build/derived/tago-pair-times.json만 커밋
+data-build/raw/tago/

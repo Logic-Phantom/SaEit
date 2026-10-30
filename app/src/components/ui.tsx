@@ -126,12 +126,24 @@ export function ConfirmDialog({ title, body, confirmLabel, danger, onConfirm, on
   );
 }
 
+/** 데모면 경고, 실데이터면 지원 노선과 추정 노선을 알려 준다. */
 export function DemoNotice() {
-  if (!graph.raw.demo) return null;
+  if (graph.raw.demo) {
+    return (
+      <p className="notice notice--warn" role="note">
+        <Icon name="info" size={16} />
+        <span>지금은 <strong>데모 데이터</strong>예요. 서울 도심 일부 노선만 있고, 역 사이 시간은 모두 같은 값으로 추정했어요.</span>
+      </p>
+    );
+  }
+  const estimatedLines = graph.raw.lines.filter((_, li) => graph.raw.edges.some((e) => e.kind === 'ride' && e.estimated && graph.raw.nodes[e.from].lineIdx === li));
   return (
-    <p className="notice notice--warn" role="note">
+    <p className="notice" role="note">
       <Icon name="info" size={16} />
-      <span>지금은 <strong>데모 데이터</strong>예요. 서울 도심 일부 노선만 있고, 역 사이 시간은 모두 같은 값으로 추정했어요.</span>
+      <span>
+        지금은 {graph.raw.lines.map((l) => l.name).join('·')}만 지원해요. {graph.raw.note}
+        {estimatedLines.length > 0 && ` ${estimatedLines.map((l) => l.name).join('·')} 시간은 거리로 추정했어요.`}
+      </span>
     </p>
   );
 }
