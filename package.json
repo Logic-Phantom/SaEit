@@ -1,0 +1,15 @@
+{
+  "name": "saeit",
+  "private": true,
+  "workspaces": ["app", "data-build"],
+  "scripts": {
+    "data:build": "npm run build --workspace data-build",
+    "test": "npm run test --workspace data-build && npm run test --workspace app",
+    "typecheck": "npm run typecheck --workspace data-build && npm run typecheck --workspace app",
+    "dev": "npm run dev --workspace app",
+    "build": "npm run build --workspace app",
+    "licenses": "node scripts/generate-oss-licenses.mjs",
+    "bundle-size": "node scripts/bundle-size.mjs"
+  },
+  "engines": { "node": ">=24" }
+}

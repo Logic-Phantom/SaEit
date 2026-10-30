@@ -1,0 +1,67 @@
+/* 사잇 디자인 토큰 — UI_REFERENCE_2(docs/design/ui-reference-2.webp) 기준. 화면별 임의 색상값 대신 여기 값만 쓴다. */
+:root {
+  /* 색 */
+  --color-bg: #ffffff;
+  --color-bg-subtle: #f7f8fc;
+  --color-text: #191b24;
+  --color-text-sub: #747987; /* #fff 위 대비 4.6:1 */
+  --color-text-faint: #9aa0ad; /* 장식·비활성 전용(본문 금지) */
+  --color-line: #e8eaf0;
+  --color-blue: #4778f5;
+  --color-blue-strong: #3461e0; /* 흰 글자 대비 4.9:1 — 단색 텍스트 링크·포커스 */
+  --color-purple: #8a68f5;
+  --color-pink: #f06daf;
+  --color-blue-soft: #eef2ff;
+  --color-purple-soft: #f3efff;
+  --color-pink-soft: #fdeef6;
+  --color-warn: #b25e00;
+  --color-warn-soft: #fff4e5;
+  --color-success: #1f9d55;
+
+  --gradient-brand: linear-gradient(100deg, #4778f5 0%, #8a68f5 55%, #f06daf 100%);
+  --gradient-cta: linear-gradient(100deg, #4778f5 0%, #6f6ef6 55%, #a466f0 100%); /* 흰 글자 대비 ≥ 4.5:1 구간만 사용 */
+
+  /* 참가자 아바타(배경 / 아이콘) */
+  --avatar-1-bg: #e8eeff; --avatar-1-fg: #4778f5;
+  --avatar-2-bg: #ffe9e4; --avatar-2-fg: #e8664a;
+  --avatar-3-bg: #fff3d6; --avatar-3-fg: #d99a0b;
+  --avatar-4-bg: #eae6ff; --avatar-4-fg: #7b5cf0;
+  --avatar-5-bg: #e1f6ee; --avatar-5-fg: #1f9d72;
+  --avatar-6-bg: #fde7f2; --avatar-6-fg: #e0569b;
+
+  /* 모서리 */
+  --radius-card: 18px;
+  --radius-control: 14px;
+  --radius-pill: 999px;
+
+  /* 간격 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --gutter: 20px;
+
+  /* 타이포 */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', system-ui, sans-serif;
+  --text-display: 700 34px/1.2 var(--font-family);
+  --text-title: 700 22px/1.35 var(--font-family);
+  --text-heading: 700 18px/1.4 var(--font-family);
+  --text-body-strong: 600 16px/1.5 var(--font-family);
+  --text-body: 400 16px/1.5 var(--font-family);
+  --text-label: 600 14px/1.45 var(--font-family);
+  --text-caption: 400 13px/1.5 var(--font-family);
+  --text-micro: 500 12px/1.4 var(--font-family);
+
+  /* 그림자 — 얇게 */
+  --shadow-card: 0 1px 2px rgba(25, 27, 36, 0.04), 0 4px 14px rgba(25, 27, 36, 0.05);
+  --shadow-cta: 0 6px 16px rgba(91, 108, 245, 0.25);
+
+  /* 크기 */
+  --control-h: 52px;
+  --touch-min: 44px;
+  --tabbar-h: 60px;
+  --page-max: 480px;
+}

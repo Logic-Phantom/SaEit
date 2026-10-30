@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.ait
+.env
+.env.*
+!.env.example
+.claude/
+*.log
+.DS_Store

@@ -1,0 +1,49 @@
+# 그래프 재생성: 수동 실행 → raw → graph.v1.json·COVERAGE.md 재생성 → 검증 → PR 생성(자동 머지 금지)
+name: Data Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "PR 설명에 넣을 메모(데이터 기준일 등)"
+        type: string
+        default: ""
+
+concurrency:
+  group: data-build
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run data:build
+      - run: npm test
+      - name: Create PR when graph changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTE: ${{ inputs.note }}
+        run: |
+          if git diff --quiet -- app/src/data docs/COVERAGE.md data-build/station-ids.json; then
+            echo "그래프 변경 없음" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          branch="data-build/${GITHUB_RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add app/src/data docs/COVERAGE.md data-build/station-ids.json
+          git commit -m "data: 그래프 재생성 (${GITHUB_RUN_ID})"
+          git push origin "$branch"
+          gh pr create --title "data: 그래프 재생성" --body "$(printf '자동 생성된 그래프 갱신. COVERAGE.md 변경을 검토한 뒤 직접 머지하세요.\n\n%s' "$NOTE")" --base main --head "$branch"
+          cat docs/COVERAGE.md >> "$GITHUB_STEP_SUMMARY"
