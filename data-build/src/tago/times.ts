@@ -8,6 +8,13 @@ export const DAY_FROM = 7 * 3600;
 export const DAY_TO = 22 * 3600;
 export const MATCH_WINDOW_SEC = 30 * 60;
 export const MIN_SAMPLES = 5;
+/** 물리적 최소 소요시간 계산용 최고 속도(km/h). 수도권 전철 최고 운행속도(일반 110 km/h 안팎)보다 넉넉히 잡은 하한(D-044) */
+export const MAX_SPEED_KMH = 120;
+
+/** 구간 거리로 본 최소 소요시간(초). 거리를 모르면 0 */
+export function minTravelSec(km: number | undefined): number {
+  return km != null && km > 0 ? Math.floor((km / MAX_SPEED_KMH) * 3600) : 0;
+}
 
 export interface PairTime { sec: number; samples: number }
 
@@ -31,8 +38,10 @@ const median = (xs: number[]) => {
 /**
  * @param a A역 시간표(한 방향), @param b B역 시간표(같은 방향)
  * @param towardB 시간표 행 → 그 행의 종점으로 가는 열차가 A → B 순서로 지나가는지(그래프에서 판단). 모르는 종점은 undefined.
+ * @param minSec 물리적 최소 소요시간. 'A 출발 다음 가장 이른 B'는 소요시간이 배차 간격보다 길면 **앞 열차**를 잡으므로(공항철도 청라→영종 등),
+ *               A 출발 + minSec 이후의 B 중 가장 이른 것을 같은 열차로 본다(D-044)
  */
-export function pairTime(a: TagoSchedule[], b: TagoSchedule[], towardB: (row: TagoSchedule) => boolean | undefined): PairTime | null {
+export function pairTime(a: TagoSchedule[], b: TagoSchedule[], towardB: (row: TagoSchedule) => boolean | undefined, minSec = 0): PairTime | null {
   const bByEnd = new Map<string, number[]>();
   for (const x of b) {
     const t = hmsToSec(x.depTime) ?? hmsToSec(x.arrTime);
@@ -46,7 +55,7 @@ export function pairTime(a: TagoSchedule[], b: TagoSchedule[], towardB: (row: Ta
     const t = hmsToSec(x.depTime);
     if (t == null || t < DAY_FROM || t > DAY_TO) continue;
     const list = bByEnd.get(x.endSubwayStationId);
-    const next = list?.find((tb) => tb > t);
+    const next = list?.find((tb) => tb > t + minSec);
     if (next != null && next - t <= MATCH_WINDOW_SEC) diffs.push(next - t);
   }
   if (diffs.length < MIN_SAMPLES) return null;

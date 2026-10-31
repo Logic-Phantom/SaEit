@@ -101,3 +101,46 @@ test('TAGO 노선 이름 매칭: 완전 일치, 수도권 밖 ID 제외', async 
   assert.equal(NON_CAPITAL_ID.test('MTRDJ10011'), true);
   assert.equal(NON_CAPITAL_ID.test('MTRS11151'), false);
 });
+
+test('정차 시간 측정: 시간표(출발→출발) − 공식(출발→도착) 중앙값, 노선별·전체 대체값', async () => {
+  const { measureDwell, dwellFor, DWELL_MIN_LINE_SAMPLES } = await import('../src/tago/apply.ts');
+  const dir = join(tmp, 'dwell');
+  mkdirSync(join(dir, 'schedules'), { recursive: true });
+  // 역 S0..S24 일직선 노선 'X', 열차는 역마다 3분 간격(= 출발→출발 180초). 공식값은 150초 → 정차 30초
+  const n = DWELL_MIN_LINE_SAMPLES * 2 + 5;
+  const names = Array.from({ length: n }, (_, i) => `역${i}`);
+  const stations: Record<string, string> = {};
+  names.forEach((nm, i) => {
+    stations[`X|${nm}`] = `T${i}`;
+    writeFileSync(join(dir, 'schedules', `T${i}_D_01.json`), JSON.stringify([0, 10, 20, 30, 40, 50].map((m) => row(nm, names[n - 1], hhmm(480 + m + i * 3)))));
+    writeFileSync(join(dir, 'schedules', `T${i}_U_01.json`), '[]');
+  });
+  writeFileSync(join(dir, 'index.json'), JSON.stringify({ fetchedAt: 'x', dailyTypeCode: '01', stations, routeNamesSeen: [], unmatched: [], ambiguous: [] }));
+  const official = names.slice(0, -1).map((nm, i) => ({ lineId: 'X', from: nm, to: names[i + 1], sec: 150, estimated: false }));
+  const m = measureDwell(official, official, dir)!;
+  assert.equal(m.sec, 30);
+  assert.equal(m.byLine.X.sec, 30);
+  assert.equal(dwellFor(m, 'X'), 30);
+  assert.equal(dwellFor(m, 'Y'), 30); // 표본 없는 노선은 전체 값
+  assert.equal(dwellFor(null, 'X'), 0);
+  assert.equal(measureDwell(official.slice(0, 5), official, dir), null); // 표본 20개 미만
+});
+
+test('정차 시간: 흩어짐이 큰 노선은 전체 값으로 대체', async () => {
+  const { dwellFor } = await import('../src/tago/apply.ts');
+  const m = { sec: 30, samples: 100, p10: 25, p90: 40, byLine: { L3: { sec: 30, samples: 30, p10: 30, p90: 30 } }, unstable: { L2: { sec: 59, samples: 43, p10: 15, p90: 88 } }, method: '' };
+  assert.equal(dwellFor(m, 'L2'), 30);
+  assert.equal(dwellFor(m, 'L3'), 30);
+});
+
+test('짝짓기: 소요시간이 배차보다 길면 거리 기반 최소 시간 이후의 열차를 같은 열차로 본다', async () => {
+  const { minTravelSec } = await import('../src/tago/times.ts');
+  // 6분 간격, 실제 소요 8분(청라국제도시→영종 형태). 최소 시간 없이 짝지으면 앞 열차(2분 뒤)를 잡는다
+  const a = [0, 6, 12, 18, 24, 30].map((m) => row('청라', '종점', hhmm(600 + m)));
+  const b = [0, 6, 12, 18, 24, 30, 36].map((m) => row('영종', '종점', hhmm(608 + m - 6)));
+  assert.equal(pairTime(a, b, () => true)!.sec, 120); // 잘못된 짝(앞 열차)
+  const min = minTravelSec(10.2); // 10.2 km ÷ 120 km/h = 306초
+  assert.equal(min, 306);
+  assert.equal(pairTime(a, b, () => true, min)!.sec, 480);
+  assert.equal(minTravelSec(undefined), 0);
+});

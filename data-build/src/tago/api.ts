@@ -58,8 +58,12 @@ export function hmsToSec(v: string | number | undefined): number | null {
  *  '1호선'은 부산·대전 1호선도 같은 이름이고 '인천1호선'도 있으므로 완전 일치로 비교한다. */
 export const ROUTE_NAME_PATTERNS: Record<string, RegExp> = {
   L1: /^1호선$/,
+  L2: /^2호선$/, // 2·5·6·7호선은 공식 운행시간이 있지만 정차 시간 측정(D-043)용으로 시간표를 받는다
   L3: /^3호선$/,
   L4: /^4호선$/,
+  L5: /^5호선$/,
+  L6: /^6호선$/,
+  L7: /^7호선$/,
   L8: /^8호선$/,
   L9: /^9호선$/,
   AREX: /^공항$/,

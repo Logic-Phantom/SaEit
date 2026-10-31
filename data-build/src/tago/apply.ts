@@ -8,11 +8,18 @@ import { normalizeName } from '../normalize-station.ts';
 import type { RawSection } from '../types.ts';
 import type { TagoSchedule } from './api.ts';
 import type { TagoIndex } from './fetch.ts';
-import { hopsFrom, pairTime } from './times.ts';
+import { hopsFrom, minTravelSec, pairTime } from './times.ts';
 
 /** `노선ID|출발|도착` → 시간(초)·표본 수 */
 export type PairTimes = Record<string, { sec: number; samples: number }>;
-export interface DerivedTago { fetchedAt: string; dailyTypeCode: string; method: string; pairs: PairTimes }
+export interface DerivedTago {
+  fetchedAt: string;
+  dailyTypeCode: string;
+  method: string;
+  pairs: PairTimes;
+  /** 공식 운행시간 구간에 더할 정차 시간(측정값). 원본 시간표가 없는 곳에서도 같은 값을 쓰도록 저장 */
+  officialDwell?: DwellMeasure | null;
+}
 
 export const pairKey = (lineId: string, from: string, to: string) => `${lineId}|${from}|${to}`;
 
@@ -62,6 +69,7 @@ export function deriveTagoPairs(sections: RawSection[], tagoDir: string): { deri
       const hb = h.get(s.to);
       return ha != null && hb != null && ha !== hb ? hb < ha : undefined;
     };
+    const minSec = minTravelSec(s.km);
     const groups: { sec: number; samples: number }[] = [];
     let any = false;
     for (const dir of ['U', 'D'] as const) {
@@ -84,12 +92,12 @@ export function deriveTagoPairs(sections: RawSection[], tagoDir: string): { deri
       if (vote !== 0) {
         for (const g of byEnd) {
           if (g.toward == null || g.toward !== vote > 0) continue;
-          const r = g.toward ? pairTime(g.aE, g.bE, () => true) : pairTime(g.bE, g.aE, () => true);
+          const r = g.toward ? pairTime(g.aE, g.bE, () => true, minSec) : pairTime(g.bE, g.aE, () => true, minSec);
           if (r) groups.push(r);
         }
       } else {
         for (const g of byEnd) {
-          const cands = [pairTime(g.aE, g.bE, () => true), pairTime(g.bE, g.aE, () => true)].filter((r): r is NonNullable<typeof r> => r != null);
+          const cands = [pairTime(g.aE, g.bE, () => true, minSec), pairTime(g.bE, g.aE, () => true, minSec)].filter((r): r is NonNullable<typeof r> => r != null);
           if (cands.length) groups.push(cands.reduce((x, y) => (y.sec < x.sec ? y : x)));
         }
       }
@@ -103,6 +111,57 @@ export function deriveTagoPairs(sections: RawSection[], tagoDir: string): { deri
     derived: { fetchedAt: index.fetchedAt, dailyTypeCode: index.dailyTypeCode, method: '같은 방향 코드·같은 종점 열차 묶음별 A역 출발→B역 출발 차의 중앙값(종점 위치로 방향 판단·코드 내 다수 방향 묶음만), 평일 07~22시, 묶음 표본 수 가중 평균(D-035, D-041)', pairs },
     tried,
   };
+}
+
+/** 정차 시간 측정 결과(D-043): 시간표 산출(출발→출발) − 공식 운행시간(출발→도착). 노선별 + 전체 */
+export interface DwellStat { sec: number; samples: number; p10: number; p90: number }
+export interface DwellMeasure extends DwellStat { byLine: Record<string, DwellStat>; /** 흩어짐이 커서 전체 값으로 대체한 노선(기록용) */ unstable?: Record<string, DwellStat>; method: string }
+
+/** 노선별 값을 쓰려면 겹치는 구간이 이만큼은 있어야 한다. 모자라면 전체 중앙값 */
+export const DWELL_MIN_LINE_SAMPLES = 10;
+/** 노선별 값의 흩어짐(p90 − p10)이 이보다 크면 그 노선 시간표 산출이 불안정하다고 보고 전체 중앙값을 쓴다.
+ *  2026-10-31: 2호선은 순환선이라 방향 판단이 흔들리고 값이 30·59·88초로 뭉쳐 p10 15·p90 88(폭 73초) — 다른 노선은 폭 10~30초 */
+export const DWELL_MAX_LINE_SPREAD = 45;
+
+const stat = (xs: number[]): DwellStat => {
+  const d = [...xs].sort((a, b) => a - b);
+  const q = (f: number) => d[Math.min(d.length - 1, Math.floor(f * d.length))];
+  return { sec: q(0.5), samples: d.length, p10: q(0.1), p90: q(0.9) };
+};
+
+/**
+ * 공식 운행시간 구간(OA-12034)에 빠진 정차 시간을 데이터로 잰다.
+ * 같은 구간을 시간표로도 산출해(공식값 구간을 '추정'으로 표시해 deriveTagoPairs에 넣음) 차이의 **중앙값**을 정차 시간으로 쓴다.
+ * 회차역 대기 같은 큰 값에 흔들리지 않도록 평균이 아니라 중앙값. 전체 겹치는 구간이 20개 미만이면 null.
+ */
+export function measureDwell(official: RawSection[], all: RawSection[], tagoDir: string): DwellMeasure | null {
+  const officialKeys = new Set(official.map((s) => pairKey(s.lineId, s.from, s.to)));
+  const probe = all.map((s) => ({ ...s, estimated: officialKeys.has(pairKey(s.lineId, s.from, s.to)) }));
+  const d = deriveTagoPairs(probe, tagoDir);
+  if (!d) return null;
+  const byLineDiffs = new Map<string, number[]>();
+  for (const s of official) {
+    const p = d.derived.pairs[pairKey(s.lineId, s.from, s.to)];
+    if (!p || s.sec == null) continue;
+    byLineDiffs.set(s.lineId, [...(byLineDiffs.get(s.lineId) ?? []), p.sec - s.sec]);
+  }
+  const allDiffs = [...byLineDiffs.values()].flat();
+  if (allDiffs.length < 20) return null;
+  const byLine: Record<string, DwellStat> = {};
+  const unstable: Record<string, DwellStat> = {};
+  for (const [line, xs] of [...byLineDiffs].sort()) {
+    if (xs.length < DWELL_MIN_LINE_SAMPLES) continue;
+    const st = stat(xs);
+    if (st.p90 - st.p10 > DWELL_MAX_LINE_SPREAD) unstable[line] = st;
+    else byLine[line] = st;
+  }
+  return { ...stat(allDiffs), byLine, unstable, method: `같은 구간 시간표 산출값 − 공식 운행시간의 중앙값. 노선별 표본 ${DWELL_MIN_LINE_SAMPLES}개 이상·흩어짐 ${DWELL_MAX_LINE_SPREAD}초 이하면 노선 값, 아니면 전체 값(D-043)` };
+}
+
+/** 노선에 더할 정차 시간 */
+export function dwellFor(m: DwellMeasure | null | undefined, lineId: string): number {
+  if (!m) return 0;
+  return m.byLine?.[lineId]?.sec ?? m.sec;
 }
 
 export function applyPairs(sections: RawSection[], pairs: PairTimes): { sections: RawSection[]; filled: number } {

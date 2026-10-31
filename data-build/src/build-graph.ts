@@ -13,7 +13,7 @@ import { loadLinearDistance } from './sources/krna-distance.ts';
 import { loadManualLines } from './sources/manual-lines.ts';
 import { loadSeoulMetroRuntime } from './sources/seoul-metro-runtime.ts';
 import { loadMetroTransfers } from './sources/transfers.ts';
-import { applyPairs, deriveTagoPairs, type DerivedTago } from './tago/apply.ts';
+import { applyPairs, deriveTagoPairs, dwellFor, measureDwell, type DerivedTago } from './tago/apply.ts';
 import type { Edge, Graph, RawDataset } from './types.ts';
 import { validateGraph } from './validate.ts';
 
@@ -140,16 +140,22 @@ export function loadRealDataset(): RawDataset & { skippedTransferLines: string[]
     .map((x) => ({ ...x, from: normalizeName(x.from), to: normalizeName(x.to) }));
   // 원본 시간표(raw/tago, git 제외)가 있으면 다시 뽑아 derived/에 저장, 없으면 저장된 결과를 쓴다(D-037)
   let derived: DerivedTago | null = null;
+  const officialKeys = new Set(metro.sections.map((x) => `${x.lineId}|${normalizeName(x.from)}|${normalizeName(x.to)}`));
+  const isOfficial = (x: { lineId: string; from: string; to: string }) => officialKeys.has(`${x.lineId}|${x.from}|${x.to}`);
   const fresh = deriveTagoPairs(allSections, join(RAW, 'tago'));
   if (fresh) {
-    derived = fresh.derived;
+    derived = { ...fresh.derived, officialDwell: measureDwell(allSections.filter(isOfficial), allSections, join(RAW, 'tago')) };
     mkdirSync(dirname(TAGO_DERIVED), { recursive: true });
     writeFileSync(TAGO_DERIVED, `${JSON.stringify(derived, null, 1)}\n`);
     console.log(`시간표에서 구간 시간 산출: ${Object.keys(derived.pairs).length}/${fresh.tried} → ${TAGO_DERIVED}`);
   } else if (existsSync(TAGO_DERIVED)) {
     derived = JSON.parse(readFileSync(TAGO_DERIVED, 'utf8')) as DerivedTago;
   }
-  const applied = derived ? applyPairs(allSections, derived.pairs) : { sections: allSections, filled: 0 };
+  // 공식 운행시간(출발→도착)에 측정한 정차 시간을 더해 시간표 산출값(출발→출발)과 기준을 맞춘다(D-043)
+  const dm = derived?.officialDwell;
+  if (dm) console.log(`공식 운행시간 구간 정차 시간: 전체 +${dm.sec}초 (비교 ${dm.samples}구간) · 노선별 ${Object.entries(dm.byLine ?? {}).map(([l, v]) => `${l} +${v.sec}(${v.samples})`).join(', ')}${Object.keys(dm.unstable ?? {}).length ? ` · 불안정해 전체 값 사용: ${Object.entries(dm.unstable ?? {}).map(([l, v]) => `${l}(p10 ${v.p10}·p90 ${v.p90})`).join(', ')}` : ''}`);
+  const withDwell = dm ? allSections.map((x) => (isOfficial(x) && x.sec != null ? { ...x, sec: x.sec + dwellFor(dm, x.lineId) } : x)) : allSections;
+  const applied = derived ? applyPairs(withDwell, derived.pairs) : { sections: withDwell, filled: 0 };
   const tago = { sections: applied.sections, filled: applied.filled, fetchedAt: derived?.fetchedAt ?? null };
   if (derived) console.log(`시간표 반영: ${tago.filled}개 구간 (수집 ${derived.fetchedAt})`);
   const aliases: Record<string, string[]> = { ...metro.aliases };
